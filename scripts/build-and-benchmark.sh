@@ -30,6 +30,10 @@ for command in cmake curl git python3 sha256sum; do
 done
 
 mkdir -p "${work_dir}" "${result_dir}" "$(dirname "${model_path}")"
+exec > >(tee -a "${result_dir}/run.log") 2>&1
+trap 'status=$?; printf "failed_status=%s failed_line=%s\n" "${status}" "${LINENO}" >&2' ERR
+
+printf 'stage=prepare-source\n'
 
 if [[ ! -d "${source_dir}/.git" ]]; then
   git clone --filter=blob:none https://github.com/ggml-org/llama.cpp.git "${source_dir}"
@@ -38,6 +42,7 @@ git -C "${source_dir}" fetch --depth 1 origin "${llama_ref}"
 git -C "${source_dir}" checkout --detach "${llama_ref}"
 
 if [[ ! -f "${model_path}" ]]; then
+  printf 'stage=download-model\n'
   partial_path="${model_path}.partial"
   curl --fail --location --retry 3 --output "${partial_path}" "${model_url}"
   printf '%s  %s\n' "${model_sha256}" "${partial_path}" | sha256sum --check
@@ -52,16 +57,19 @@ common_flags=(
   -DLLAMA_CURL=OFF
   -DLLAMA_BUILD_SERVER=OFF
   -DLLAMA_BUILD_TESTS=OFF
-  -DLLAMA_BUILD_EXAMPLES=OFF
+  -DLLAMA_BUILD_EXAMPLES=ON
   -DLLAMA_BUILD_TOOLS=ON
 )
 
+printf 'stage=build-baseline\n'
 cmake -S "${source_dir}" -B "${baseline_dir}" "${common_flags[@]}" -DGGML_CPU_KLEIDIAI=OFF
 cmake --build "${baseline_dir}" --config Release --target llama-bench llama-cli --parallel "${jobs}"
 
+printf 'stage=build-kleidiai\n'
 cmake -S "${source_dir}" -B "${optimized_dir}" "${common_flags[@]}" -DGGML_CPU_KLEIDIAI=ON
 cmake --build "${optimized_dir}" --config Release --target llama-bench llama-cli --parallel "${jobs}"
 
+printf 'stage=smoke-test\n'
 "${baseline_dir}/bin/llama-cli" -m "${model_path}" -p "Return only the word READY." -n 4 --temp 0 >"${result_dir}/baseline-smoke.log" 2>&1
 "${optimized_dir}/bin/llama-cli" -m "${model_path}" -p "Return only the word READY." -n 4 --temp 0 >"${result_dir}/optimized-smoke.log" 2>&1
 
@@ -70,6 +78,7 @@ if ! grep -q "CPU_KLEIDIAI" "${result_dir}/optimized-smoke.log"; then
   exit 3
 fi
 
+printf 'stage=benchmark\n'
 "${baseline_dir}/bin/llama-bench" -m "${model_path}" -p 512 -n 128 -r 5 -t "${threads}" -o json >"${result_dir}/baseline.json"
 "${optimized_dir}/bin/llama-bench" -m "${model_path}" -p 512 -n 128 -r 5 -t "${threads}" -o json >"${result_dir}/optimized.json"
 
@@ -89,3 +98,5 @@ python3 "${root_dir}/benchmark.py" \
   "${result_dir}/baseline.json" \
   "${result_dir}/optimized.json" \
   --output "${result_dir}/summary.json"
+
+printf 'stage=complete\n'

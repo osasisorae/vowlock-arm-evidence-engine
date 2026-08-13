@@ -58,6 +58,8 @@ Then run:
 
 The script refuses to run on a non-Arm host, verifies the model hash, builds both variants from the same pinned `llama.cpp` commit, verifies that the optimized build actually selects the KleidiAI buffer, and writes raw evidence under `results/`.
 
+Failed and successful attempts are recorded in [`docs/run-log.md`](docs/run-log.md). Setup failures are not counted as performance evidence.
+
 Run the local summarizer tests with:
 
 ```bash
