@@ -1,0 +1,8 @@
+model/*.gguf
+model/*.partial
+results/*
+!results/.gitkeep
+work/
+__pycache__/
+*.pyc
+.DS_Store
