@@ -57,21 +57,21 @@ common_flags=(
   -DLLAMA_CURL=OFF
   -DLLAMA_BUILD_SERVER=OFF
   -DLLAMA_BUILD_TESTS=OFF
-  -DLLAMA_BUILD_EXAMPLES=ON
+  -DLLAMA_BUILD_EXAMPLES=OFF
   -DLLAMA_BUILD_TOOLS=ON
 )
 
 printf 'stage=build-baseline\n'
 cmake -S "${source_dir}" -B "${baseline_dir}" "${common_flags[@]}" -DGGML_CPU_KLEIDIAI=OFF
-cmake --build "${baseline_dir}" --config Release --target llama-bench llama-cli --parallel "${jobs}"
+cmake --build "${baseline_dir}" --config Release --target llama-bench llama-completion --parallel "${jobs}"
 
 printf 'stage=build-kleidiai\n'
 cmake -S "${source_dir}" -B "${optimized_dir}" "${common_flags[@]}" -DGGML_CPU_KLEIDIAI=ON
-cmake --build "${optimized_dir}" --config Release --target llama-bench llama-cli --parallel "${jobs}"
+cmake --build "${optimized_dir}" --config Release --target llama-bench llama-completion --parallel "${jobs}"
 
 printf 'stage=smoke-test\n'
-"${baseline_dir}/bin/llama-cli" -m "${model_path}" -p "Return only the word READY." -n 4 --temp 0 >"${result_dir}/baseline-smoke.log" 2>&1
-"${optimized_dir}/bin/llama-cli" -m "${model_path}" -p "Return only the word READY." -n 4 --temp 0 >"${result_dir}/optimized-smoke.log" 2>&1
+"${baseline_dir}/bin/llama-completion" -m "${model_path}" -no-cnv -p "Return only the word READY." -n 4 --temp 0 >"${result_dir}/baseline-smoke.log" 2>&1
+"${optimized_dir}/bin/llama-completion" -m "${model_path}" -no-cnv -p "Return only the word READY." -n 4 --temp 0 >"${result_dir}/optimized-smoke.log" 2>&1
 
 if ! grep -q "CPU_KLEIDIAI" "${result_dir}/optimized-smoke.log"; then
   echo "Optimized build did not prove that the CPU_KLEIDIAI buffer was selected." >&2
