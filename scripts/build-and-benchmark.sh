@@ -70,17 +70,42 @@ cmake -S "${source_dir}" -B "${optimized_dir}" "${common_flags[@]}" -DGGML_CPU_K
 cmake --build "${optimized_dir}" --config Release --target llama-bench llama-completion --parallel "${jobs}"
 
 printf 'stage=smoke-test\n'
-"${baseline_dir}/bin/llama-completion" -m "${model_path}" -no-cnv -p "Return only the word READY." -n 4 --temp 0 >"${result_dir}/baseline-smoke.log" 2>&1
-"${optimized_dir}/bin/llama-completion" -m "${model_path}" -no-cnv -p "Return only the word READY." -n 4 --temp 0 >"${result_dir}/optimized-smoke.log" 2>&1
+smoke_args=(
+  --device none
+  --verbose
+  -m "${model_path}"
+  -no-cnv
+  -p "Return only the word READY."
+  -n 4
+  --temp 0
+)
+"${baseline_dir}/bin/llama-completion" "${smoke_args[@]}" >"${result_dir}/baseline-smoke.log" 2>&1
+"${optimized_dir}/bin/llama-completion" "${smoke_args[@]}" >"${result_dir}/optimized-smoke.log" 2>&1
 
-if ! grep -q "CPU_KLEIDIAI" "${result_dir}/optimized-smoke.log"; then
+if grep -Eq "load_tensors:.*CPU_KLEIDIAI model buffer" "${result_dir}/baseline-smoke.log"; then
+  echo "Baseline unexpectedly selected the CPU_KLEIDIAI model buffer." >&2
+  grep -Ei "load_tensors:|KLEIDIAI|system_info" "${result_dir}/baseline-smoke.log" >&2 || true
+  exit 3
+fi
+
+if ! grep -Eq "load_tensors:.*CPU_KLEIDIAI model buffer" "${result_dir}/optimized-smoke.log"; then
   echo "Optimized build did not prove that the CPU_KLEIDIAI buffer was selected." >&2
+  grep -Ei "load_tensors:|KLEIDIAI|system_info" "${result_dir}/optimized-smoke.log" >&2 || true
   exit 3
 fi
 
 printf 'stage=benchmark\n'
-"${baseline_dir}/bin/llama-bench" -m "${model_path}" -p 512 -n 128 -r 5 -t "${threads}" -o json >"${result_dir}/baseline.json"
-"${optimized_dir}/bin/llama-bench" -m "${model_path}" -p 512 -n 128 -r 5 -t "${threads}" -o json >"${result_dir}/optimized.json"
+benchmark_args=(
+  --device none
+  -m "${model_path}"
+  -p 512
+  -n 128
+  -r 5
+  -t "${threads}"
+  -o json
+)
+"${baseline_dir}/bin/llama-bench" "${benchmark_args[@]}" >"${result_dir}/baseline.json"
+"${optimized_dir}/bin/llama-bench" "${benchmark_args[@]}" >"${result_dir}/optimized.json"
 
 {
   date --iso-8601=seconds

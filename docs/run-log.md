@@ -22,3 +22,18 @@ This log records failed as well as successful runs. A failed setup is evidence a
 - Cause: enabling examples did not affect the pinned revision's CLI gate. The upstream `tools/CMakeLists.txt` adds `tools/cli` only inside `if (LLAMA_BUILD_SERVER)`.
 - Interpretation: this run also says nothing about KleidiAI performance. It validates the new failure-log path but provides no baseline or optimized measurement.
 - Correction: use the standalone `llama-completion` target for smoke inference. It is part of the enabled tools tree and does not require the server or examples.
+
+## Run 3 — 2026-08-13
+
+- GitHub Actions run: `31716397091`
+- Commit: `f773e49a82d21b00f6ae22e1d8260a52d03fca29`
+- Runner: GitHub-hosted `ubuntu-22.04-arm`; architecture, dependency and summarizer checks passed.
+- Outcome: verification failure after both builds and both smoke inferences completed, but before the paired throughput benchmark began.
+- Evidence: the optimized smoke log reports `KLEIDIAI = 1` in `system_info`, while the baseline log does not. The optimized log also reports that Q6_K tensors are not accelerated because KleidiAI kernels are available for Q4_0 and Q8_0. The script then exited with status 3 because it could not find the literal string `CPU_KLEIDIAI`.
+- Cause: the runtime guard expected llama.cpp's detailed `load_tensors: CPU_KLEIDIAI model buffer` message, but the pinned tool's default verbosity omitted the detailed model-buffer lines from both smoke logs. The check therefore confused missing log evidence with a missing backend: a verifier false negative.
+- Interpretation: this run proves that the optimized binary was compiled with and exposed KleidiAI, but `KLEIDIAI = 1` alone does not satisfy the stricter claim that the model's Q4_0 tensors selected the KleidiAI buffer. No throughput claim is permitted because `llama-bench` never ran.
+- Correction: rerun smoke inference with verbose logging and `--device none`, retain the strict `CPU_KLEIDIAI` buffer-selection gate, and print the relevant smoke log when that gate fails. Apply the same device restriction to both benchmark conditions so the registered comparison remains fact-equivalent.
+
+## What the failures are teaching us
+
+The first three runs are not three failed optimization results. They are three failures of the experimental apparatus: an unavailable target, a mistaken correction to that target, and a verifier that rejected a valid intermediate state because its expected evidence was hidden. This distinction matters. A benchmark can only answer the optimization question after its build, workload and verifier are trustworthy. Until then, improving the experiment is the result.
