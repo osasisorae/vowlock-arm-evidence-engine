@@ -16,7 +16,7 @@ Only `GGML_CPU_KLEIDIAI` changes between the primary baseline and optimized buil
 
 - exact `llama.cpp` revision: `1ee1cd9bc65a56ab50e2ed19a48709dc42d1dd9d`;
 - exact model revision, file and SHA-256;
-- one host, operating system, thread count and power state;
+- one GitHub-hosted `ubuntu-22.04-arm` job, with both conditions run sequentially on that same ephemeral host;
 - identical prompt-token and generation-token counts;
 - five repetitions after an explicit smoke/warm-up run;
 - raw JSON retained before any summary is written.
@@ -42,3 +42,7 @@ A speed increase is an inference-runtime result, not evidence that the explanati
 ## Stop conditions
 
 Stop and report the limitation if the host is not real Arm64, the model hash differs, the source revisions differ, KleidiAI is not actually selected, either build fails, or the experiment requires changing more than the registered variable.
+
+## Resource boundary
+
+This experiment must not create a paid cloud VM or invoke a metered API. The intended target is GitHub's standard hosted Arm64 runner in a public repository. If that free runner is unavailable or unsuitable, the run stops until another explicitly free real-Arm target is verified.

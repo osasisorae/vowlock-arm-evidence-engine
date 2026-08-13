@@ -1,0 +1,49 @@
+name: Arm64 benchmark
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  benchmark:
+    name: Baseline vs KleidiAI
+    runs-on: ubuntu-22.04-arm
+    timeout-minutes: 180
+
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v6
+
+      - name: Prove the runner architecture
+        run: |
+          uname -a
+          test "$(uname -m)" = "aarch64"
+          lscpu
+
+      - name: Install build requirements
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y build-essential cmake curl git python3
+
+      - name: Test the evidence summarizer
+        run: python3 -m unittest discover -s tests -v
+
+      - name: Cache the pinned model
+        uses: actions/cache@v4
+        with:
+          path: model/qwen2.5-1.5b-instruct-q4_0.gguf
+          key: qwen2.5-1.5b-q4-0-dcd819ff
+
+      - name: Run the paired benchmark
+        run: ./scripts/build-and-benchmark.sh
+
+      - name: Preserve raw benchmark evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: arm64-benchmark-evidence-${{ github.run_id }}
+          path: results/
+          if-no-files-found: warn
+          retention-days: 30

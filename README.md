@@ -30,9 +30,16 @@ The pinned model is the official Apache-2.0 Qwen GGUF artifact:
 ## Current state
 
 - Benchmark protocol and summarizer: implemented locally.
-- Actual Arm64 host: blocked until cloud authentication is refreshed.
+- Actual Arm64 host: prepared for GitHub's standard `ubuntu-22.04-arm` hosted runner.
+- Cost boundary: no paid VM, subscription or metered API is permitted for this experiment.
 - Measured result: not yet available.
 - Submission claim: none until the run is reproducible.
+
+## Zero-cost Arm target
+
+The benchmark runs through `.github/workflows/arm-benchmark.yml` on a standard GitHub-hosted Arm64 runner. GitHub documents standard hosted runners as free and unlimited for public repositories. The workflow is manual rather than push-triggered so a source edit cannot accidentally create repeated benchmark jobs.
+
+Making this repository public is also an Arm submission requirement. No benchmark will start until the owner explicitly approves publishing the repository.
 
 ## Run on an Arm64 Ubuntu host
 
