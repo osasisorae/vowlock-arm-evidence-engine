@@ -29,7 +29,7 @@ It should win because Arm optimization needs trustworthy evidence as much as it 
 - Runs fact-equivalent 512-token prompt-processing and 128-token generation benchmarks with five internal repetitions.
 - Produces raw JSON plus a machine-readable relative-change summary.
 - Runs a deterministic chat-template canary and independently rejects unequal outputs or two equal-but-wrong outputs.
-- Publishes the complete seven-run history, including three setup failures and the known limitation in Runs 4–6.
+- Publishes the complete eight-run history, including three setup failures and the known limitation in Runs 4–6.
 
 The final output is an MIT-licensed evidence engine, a replicated benchmark dataset, a corrected semantic verifier and a judge-facing evidence report.
 
@@ -61,7 +61,7 @@ The registered performance hypothesis is closed as mixed/near-neutral for this m
 
 ## Prior work and hackathon-period disclosure
 
-VowLock existed before the challenge. This submission does not claim that the VowLock product or the separate ADTC Setup Companion concept was created during the hackathon. The VowLock Arm Evidence Engine repository, controlled Arm64 benchmark harness, summarizer, runtime-selection verifier, output-contract verifier, seven-run evidence trail, result report and submission assets were created as a new optimization artifact during the challenge period.
+VowLock existed before the challenge. This submission does not claim that the VowLock product or the separate ADTC Setup Companion concept was created during the hackathon. The VowLock Arm Evidence Engine repository, controlled Arm64 benchmark harness, summarizer, runtime-selection verifier, output-contract verifier, eight-run evidence trail, result report and submission assets were created as a new optimization artifact during the challenge period.
 
 ## Links
 
@@ -69,3 +69,4 @@ VowLock existed before the challenge. This submission does not claim that the Vo
 - Evidence report: add GitHub Pages URL after activation
 - Replicated results: https://github.com/osasisorae/vowlock-arm-evidence-engine/blob/main/docs/results.md
 - Validated Run 7: https://github.com/osasisorae/vowlock-arm-evidence-engine/actions/runs/31777533677
+- Final submission validation: https://github.com/osasisorae/vowlock-arm-evidence-engine/actions/runs/31779088483

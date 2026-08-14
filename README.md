@@ -82,7 +82,7 @@ An emulated Arm container may test portability but is not accepted as performanc
 
 ## Prior-work disclosure
 
-VowLock existed before the challenge. This repository is a new optimization artifact created during the submission period: the controlled Arm64 harness, result summarizer, runtime and semantic verifiers, seven-run evidence trail, result report and submission assets. It does not represent the pre-existing VowLock product or separate ADTC Setup Companion scaffold as hackathon-period work.
+VowLock existed before the challenge. This repository is a new optimization artifact created during the submission period: the controlled Arm64 harness, result summarizer, runtime and semantic verifiers, eight-run evidence trail, result report and submission assets. It does not represent the pre-existing VowLock product or separate ADTC Setup Companion scaffold as hackathon-period work.
 
 See [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) for pinned upstream projects and model licensing.
 

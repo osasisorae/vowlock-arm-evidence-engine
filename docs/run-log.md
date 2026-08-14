@@ -90,6 +90,17 @@ Across Runs 4–6, the pooled means changed from 129.9529 to 131.0815 prompt-pro
 - Interpretation: the repaired observable works and rejects wrong content rather than treating successful execution as quality. Its throughput result again has the same mixed direction, but Run 7 is not pooled with Runs 4–6 because the preceding harness operations changed.
 - Limitation: one token of deterministic equivalence is a canary, not evidence that free-form VowLock explanations are accurate, safe or useful.
 
+## Run 8 — 2026-08-14
+
+- GitHub Actions run: [`31779088483`](https://github.com/osasisorae/vowlock-arm-evidence-engine/actions/runs/31779088483)
+- Commit: `cd59de9`, the judge-facing submission package with updated GitHub Action runtimes.
+- Outcome: success; raw artifact preserved; no deprecated Node 20 action warning.
+- Runtime selection: optimized logs selected the I8MM Q4 kernel, `CPU_KLEIDIAI` model buffer and `KLEIDIAI = 1` path.
+- Semantic contract: both conditions returned exactly `READY`; expected content and equivalence passed.
+- Prompt processing: 130.0288 baseline versus 131.2159 KleidiAI tokens/s, a change of +0.91%.
+- Generation: 35.9257 baseline versus 35.4040 KleidiAI tokens/s, a change of -1.45%.
+- Interpretation: final submission validation passed and again produced the same mixed direction. It is not pooled into Runs 4–6 because it belongs to the repaired harness and submission version.
+
 ## What the runs are teaching us
 
 The first three runs are not three failed optimization results. They are three failures of the experimental apparatus: an unavailable target, a mistaken correction to that target, and a verifier that rejected a valid intermediate state because its expected evidence was hidden. Run 4 finally measured the optimization and produced a useful near-neutral result, while also revealing that a green workflow can contain an unverified secondary claim. This distinction matters: workflow success, runtime selection, throughput performance and semantic validity are separate claims and need separate evidence.

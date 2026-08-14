@@ -1,0 +1,32 @@
+{
+  "schema_version": "1.0",
+  "github_run_id": 31779088483,
+  "url": "https://github.com/osasisorae/vowlock-arm-evidence-engine/actions/runs/31779088483",
+  "submission_commit": "cd59de9",
+  "workflow": {
+    "conclusion": "success",
+    "deprecated_node20_action_warning": false
+  },
+  "output_contract": {
+    "expected": "READY",
+    "baseline": "READY",
+    "optimized": "READY",
+    "equivalent": true,
+    "contract_passed": true
+  },
+  "benchmark": {
+    "baseline": {
+      "prompt_tokens_per_second": 130.028848,
+      "generation_tokens_per_second": 35.925713
+    },
+    "optimized": {
+      "prompt_tokens_per_second": 131.215913,
+      "generation_tokens_per_second": 35.403975
+    },
+    "change_percent": {
+      "prompt_tokens_per_second": 0.9129243381437835,
+      "generation_tokens_per_second": -1.4522690196851484
+    }
+  },
+  "pooling_boundary": "Run 8 validates the judge-facing submission commit and updated workflow dependencies. It is not pooled with the strict Runs 4-6 replication set."
+}
