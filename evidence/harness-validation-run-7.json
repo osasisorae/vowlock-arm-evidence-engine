@@ -1,0 +1,28 @@
+{
+  "schema_version": "1.0",
+  "github_run_id": 31777533677,
+  "url": "https://github.com/osasisorae/vowlock-arm-evidence-engine/actions/runs/31777533677",
+  "harness_commit": "5e4d58a",
+  "output_contract": {
+    "expected": "READY",
+    "baseline": "READY",
+    "optimized": "READY",
+    "equivalent": true,
+    "contract_passed": true
+  },
+  "benchmark": {
+    "baseline": {
+      "prompt_tokens_per_second": 130.188351,
+      "generation_tokens_per_second": 36.302532
+    },
+    "optimized": {
+      "prompt_tokens_per_second": 131.136689,
+      "generation_tokens_per_second": 34.628652
+    },
+    "change_percent": {
+      "prompt_tokens_per_second": 0.7284353728391313,
+      "generation_tokens_per_second": -4.6109180483609125
+    }
+  },
+  "pooling_boundary": "Run 7 validates a separately versioned semantic gate and is not pooled with the strict Runs 4-6 replication set."
+}

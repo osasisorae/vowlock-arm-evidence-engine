@@ -78,6 +78,18 @@ Runs 5 and 6 must execute the exact remote commit used by Run 4 (`cf3ab598f07690
 
 Across Runs 4–6, the pooled means changed from 129.9529 to 131.0815 prompt-processing tokens/s (+0.87%) and from 35.1468 to 34.5907 generation tokens/s (-1.58%). All three independent workflows agree on direction. The registered comparison therefore does not demonstrate a material overall speedup for this workload. See [`docs/results.md`](results.md) for the result table and claim boundaries.
 
+## Run 7 — 2026-08-14
+
+- GitHub Actions run: [`31777533677`](https://github.com/osasisorae/vowlock-arm-evidence-engine/actions/runs/31777533677)
+- Commit: `5e4d58a`, the separately versioned output-contract repair.
+- Outcome: success; raw artifact preserved.
+- Backend verification: passed independently through the verbose `CPU_KLEIDIAI` selection gate.
+- Semantic contract: baseline output `READY`; optimized output `READY`; exact expected-output and equivalence checks both passed. The machine-readable report is retained in [`evidence/harness-validation-run-7.json`](../evidence/harness-validation-run-7.json).
+- Prompt processing: 130.1884 baseline versus 131.1367 KleidiAI tokens/s, a change of +0.73%.
+- Generation: 36.3025 baseline versus 34.6287 KleidiAI tokens/s, a change of -4.61%.
+- Interpretation: the repaired observable works and rejects wrong content rather than treating successful execution as quality. Its throughput result again has the same mixed direction, but Run 7 is not pooled with Runs 4–6 because the preceding harness operations changed.
+- Limitation: one token of deterministic equivalence is a canary, not evidence that free-form VowLock explanations are accurate, safe or useful.
+
 ## What the runs are teaching us
 
 The first three runs are not three failed optimization results. They are three failures of the experimental apparatus: an unavailable target, a mistaken correction to that target, and a verifier that rejected a valid intermediate state because its expected evidence was hidden. Run 4 finally measured the optimization and produced a useful near-neutral result, while also revealing that a green workflow can contain an unverified secondary claim. This distinction matters: workflow success, runtime selection, throughput performance and semantic validity are separate claims and need separate evidence.

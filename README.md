@@ -35,7 +35,7 @@ The pinned model is the official Apache-2.0 Qwen GGUF artifact:
 - Replicated measurement: Runs 4–6 completed from the identical commit on real Arm64 runners. Across their pooled means, KleidiAI changed prompt processing from 129.9529 to 131.0815 tokens/s (+0.87%) and generation from 35.1468 to 34.5907 tokens/s (-1.58%).
 - Runtime selection: verified through the optimized `CPU_KLEIDIAI` model buffer and I8MM kernel messages; absent in the baseline.
 - Interpretation: the mixed direction replicated and does not demonstrate a material overall speedup under the registered workload. Full table and boundaries: [`docs/results.md`](docs/results.md).
-- Quality boundary: Runs 4–6 prove executable inference and backend selection but contain a known unverified output contract. The next harness version separates verbose backend evidence from a deterministic, machine-checked chat output. That narrow canary tests equivalence, not explanation usefulness or safety.
+- Quality boundary: Runs 4–6 prove executable inference and backend selection but contain a known unverified output contract. Separately versioned Run 7 repaired the gate: both conditions returned exactly `READY`, and an independent verifier confirmed expected content and equivalence. That narrow canary does not establish explanation usefulness or safety.
 
 ## Zero-cost Arm target
 

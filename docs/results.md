@@ -23,5 +23,6 @@ The initial experiment document used the word "median," but the implemented `lla
 
 - Runtime selection is verified: optimized logs contain `KLEIDIAI = 1`, select I8MM Q4/Q8 kernels and load a `CPU_KLEIDIAI` model buffer; baseline logs do not.
 - No independent peak-process-memory measurement was collected.
-- Runs 4–6 contain a known semantic-gate defect. Their raw completion did not satisfy the requested `READY` contract and the script did not assert it. The throughput result remains valid, but these runs do not establish semantic output equivalence.
-- The semantic gate will be repaired in a separately versioned harness. Results from that version will not be silently pooled with Runs 4–6.
+- Runs 4–6 contain a known semantic-gate defect. Their raw completion did not satisfy the requested `READY` contract and the script did not assert it. The throughput result remains valid, but those runs do not establish semantic output equivalence.
+- The semantic gate was repaired in separately versioned Run 7. Both conditions returned exactly `READY`, and the independent verifier confirmed expected content and equivalence. Run 7's performance result is not silently pooled with Runs 4–6.
+- The repaired one-token canary tests a narrow deterministic contract. It does not establish the factual accuracy, safety or usefulness of free-form product explanations.
