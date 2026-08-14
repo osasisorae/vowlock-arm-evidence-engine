@@ -1,0 +1,39 @@
+name: Fast validation
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v6
+
+      - name: Run unit tests
+        run: python3 -m unittest discover -s tests -v
+
+      - name: Validate manifests and preserved evidence
+        run: |
+          python3 -m json.tool experiment.v2.json >/dev/null
+          python3 -m json.tool schemas/experiment-v2.schema.json >/dev/null
+          python3 -m json.tool evidence/v2-run-2-ubuntu-22.04-arm.json >/dev/null
+          python3 -m json.tool evidence/v2-run-2-ubuntu-24.04-arm.json >/dev/null
+          python3 -m json.tool evidence/v2-run-2-qualitative-review.json >/dev/null
+          python3 v2_matrix.py validate
+
+      - name: Run model-free Setup Companion fixture demo
+        run: python3 setup_companion_eval.py demo --output results/v2-fixture-demo.json
+
+      - name: Preserve fixture-demo report
+        uses: actions/upload-artifact@v6
+        with:
+          name: fixture-demo-${{ github.run_id }}
+          path: results/v2-fixture-demo.json
+          retention-days: 7

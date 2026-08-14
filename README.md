@@ -1,6 +1,7 @@
 # VowLock Arm Evidence Engine
 
 [![Arm64 benchmark](https://github.com/osasisorae/vowlock-arm-evidence-engine/actions/workflows/arm-benchmark.yml/badge.svg)](https://github.com/osasisorae/vowlock-arm-evidence-engine/actions/workflows/arm-benchmark.yml)
+[![Fast validation](https://github.com/osasisorae/vowlock-arm-evidence-engine/actions/workflows/validate.yml/badge.svg)](https://github.com/osasisorae/vowlock-arm-evidence-engine/actions/workflows/validate.yml)
 
 ![Replicated Arm benchmark result](docs/assets/result-card.svg)
 
