@@ -1,0 +1,75 @@
+{
+  "schema_version": "5.0-curated",
+  "study_id": "vowlock-verified-explanation-compiler-v5",
+  "source_run": "https://github.com/osasisorae/vowlock-arm-evidence-engine/actions/runs/31803354032",
+  "source_commit": "d05242d8c5e94671713d01dd4d6a1690479826cf",
+  "registration_commit": "846e693",
+  "status": "complete",
+  "claim_passed": true,
+  "environment": {
+    "machine": "aarch64",
+    "platform": "Linux-6.8.0-1064-azure-aarch64-with-glibc2.35",
+    "python": "Python 3.10.12",
+    "logical_cpus": 4
+  },
+  "proof": {
+    "state_count": 648,
+    "compiled_output_count": 1944,
+    "decision_counts": {
+      "PASS": 1,
+      "REQUEST_EVIDENCE": 47,
+      "STOP": 600
+    },
+    "invariant_pass_rate": 1.0,
+    "deterministic_repeatability_rate": 1.0,
+    "mutation_count": 8,
+    "mutations_rejected": 8,
+    "mutation_recall": 1.0,
+    "failure_count": 0
+  },
+  "benchmark": {
+    "warmup_rounds": 5,
+    "measured_rounds": 100,
+    "measured_output_count": 194400,
+    "compiled_corpus_sha256": "9b0293b0cc15193e22184b3734985629724fa99043eb588724d28cd0954530d2",
+    "variants": {
+      "B0": {
+        "nanoseconds_per_output": 19850.026064814814,
+        "outputs_per_second": 50377.76760266079,
+        "p50_complete_round_nanoseconds": 12856432.0,
+        "p95_complete_round_nanoseconds": 12911560.75,
+        "complete_state_space_bytes": 522851,
+        "median_output_bytes": 799.5
+      },
+      "D0": {
+        "nanoseconds_per_output": 23063.49660493827,
+        "outputs_per_second": 43358.55994124862,
+        "p50_complete_round_nanoseconds": 14946963.0,
+        "p95_complete_round_nanoseconds": 14988309.2,
+        "complete_state_space_bytes": 686363,
+        "median_output_bytes": 1052.0
+      },
+      "P0": {
+        "nanoseconds_per_output": 29984.42875,
+        "outputs_per_second": 33350.64370702743,
+        "p50_complete_round_nanoseconds": 19439354.0,
+        "p95_complete_round_nanoseconds": 19500831.0,
+        "complete_state_space_bytes": 1040303,
+        "median_output_bytes": 1600.0
+      }
+    }
+  },
+  "resources": {
+    "model_artifact_bytes": 0,
+    "network_requests": 0,
+    "process_peak_rss_kib": 23168,
+    "proof_seconds": 0.23957939599998213,
+    "benchmark_seconds": 5.0385870700000055,
+    "total_seconds": 5.278455994000012
+  },
+  "boundaries": [
+    "Complete only for the declared 648-state finite domain.",
+    "Exhaustive testing is not theorem-prover formal verification.",
+    "No real-device, human-comprehension, accessibility or preference claim is made."
+  ]
+}

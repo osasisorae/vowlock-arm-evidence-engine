@@ -6,7 +6,7 @@ VowLock Arm Evidence Engine
 
 ## Elevator pitch
 
-An Arm64 evidence engine that discovered the best local model for this safety task is no model: 12/12 valid templates in 0.0816 ms, without a 1.066 GB artifact.
+An Arm64 evidence engine that removed an unearned model, then compiled and exhaustively checked all 648 declared safety states with zero model bytes.
 
 ## Track
 
@@ -24,6 +24,8 @@ The fastest model did not win. Qwen2.5 0.5B reduced estimated workload time by 5
 
 Version 3 then tested runtime autotuning and stopped before sealed evaluation when both policies failed 0/6 development explanations. Version 4 followed that evidence instead of searching for a larger model: deterministic code owned every consequential field while the model was restricted to prose. On twelve sealed fixtures, the free-form model passed 0/12, constrained prose passed 6/12, and the deterministic template passed 12/12. The hybrid also passed all automatic checks, but only after six fallbacks. The template completed in 0.0816 ms median; the model-backed path took 3.0608 seconds, loaded a 1.066 GB artifact and reached about 2.05 million KiB peak server RSS. The final decision is to remove the model from this bounded task.
 
+Version 5 turned that deletion into reusable infrastructure. Registered before implementation, its compiler enumerated all 648 states in the declared seven-field domain and emitted brief, detailed and progressively disclosed results with exact rules, evidence provenance and deterministic hashes. All 1,944 outputs passed every registered invariant and repeated byte-for-byte; 8/8 authority, evidence and hash corruptions were rejected. On native Arm, it processed 194,400 measured outputs at 33,351–50,378 outputs/s, peaked at 23,168 KiB RSS and used zero model bytes and network calls.
+
 ## Functionality and output
 
 - Refuses native performance execution on non-Arm64 hosts.
@@ -37,6 +39,7 @@ Version 3 then tested runtime autotuning and stopped before sealed evaluation wh
 - Generates and evaluates synthetic Setup Companion candidates; no command is executed.
 - Independently rejects wrong decisions, wrong actions, missing evidence, token-only explanations, forbidden claims, privileged command patterns and undecodable output.
 - Mutation-tests a constrained model boundary and falls back to deterministic prose without allowing the model to alter decisions, evidence or actions.
+- Compiles a strictly typed safety policy across its complete 648-state declared domain, with deterministic provenance hashes and three reusable rendering forms.
 - Provides a seconds-long, model-free fixture demo and a browser evidence replay for anonymous judges.
 
 ## Results
@@ -48,6 +51,8 @@ Q4 reduced estimated balanced and prompt-heavy workload time by 3.18–6.90%, wh
 The retained 1.5B Q4 baseline passed 3/3 fixtures with a 5.77–5.78 second cold mean. KleidiAI also passed but was slightly slower end-to-end. Q8 failed across host images, and 0.5B passed at most 1/3 fixtures. The final choice is Qwen2.5 1.5B Q4_0 baseline.
 
 Version 4 supersedes that model choice for the bounded decision/explanation task. T0 retained exact authority and evidence in 0.0816 ms median with no model. H0 needed about 3.06 seconds and fell back in 6/12 cases. A disclosed, post-result qualitative audit also found that the surface verifier accepted misleading prose, so automatic acceptance is not presented as proof of factual safety or comprehension.
+
+Version 5 supersedes fixture sampling for the declared compiler domain. It found 600 STOP states, 47 REQUEST_EVIDENCE states and exactly one PASS state. Every state passed in B0, D0 and P0; all eight registered corruptions were caught. This establishes exhaustive registered-property coverage for the finite domain—not real-device safety, theorem-prover verification or human comprehension.
 
 ## How it was built
 
@@ -73,13 +78,14 @@ Version 4 exposed a deeper verifier limit. Immutable structured authority kept t
 - Added independent resource and end-to-end agent measurements.
 - Found a material, reproducible quantization win and a clear product model choice.
 - Rejected a 58–69% faster model because it failed the quality gate.
-- Packaged the method as an MIT-licensed template with 48 local tests, fast fixture validation, machine summaries and a public evidence page.
+- Packaged the method as an MIT-licensed template with 56 local tests, fast fixture validation, machine summaries and a public evidence page.
 - Moved consequential authority out of language generation and mutation-tested the boundary with eight attacks.
 - Found that removing a 1.066 GB model produced the strongest latency, memory and reliability result for this bounded task.
+- Converted that removal into a reusable compiler with complete declared-domain coverage, evidence provenance and mutation-tested deterministic outputs.
 
 ## What was learned
 
-An optimization flag is a hypothesis, not a result. Prompt and generation operations can move in opposite directions. A verifier can be too weak or too brittle. Workflow success describes the apparatus, not whether the claim passed. Quantization, model scale and runtime kernels must be evaluated against the same product behaviour—and sometimes the strongest AI optimization is recognizing that a deterministic program should replace the model.
+An optimization flag is a hypothesis, not a result. Prompt and generation operations can move in opposite directions. A verifier can be too weak or too brittle. Workflow success describes the apparatus, not whether the claim passed. Quantization, model scale and runtime kernels must be evaluated against the same product behaviour—and sometimes the strongest AI optimization is recognizing that a deterministic program should replace the model. When the domain is truly finite, exhaustive compilation can provide stronger evidence than additional inference-time compute.
 
 ## What is next
 
@@ -97,5 +103,7 @@ VowLock existed before the challenge. This submission does not represent the Vow
 - Version 2 protocol: https://github.com/osasisorae/vowlock-arm-evidence-engine/blob/main/docs/v2-protocol.md
 - Version 4 result: https://github.com/osasisorae/vowlock-arm-evidence-engine/blob/main/docs/v4-results.md
 - Version 4 native run: https://github.com/osasisorae/vowlock-arm-evidence-engine/actions/runs/31800634600
+- Version 5 result: https://github.com/osasisorae/vowlock-arm-evidence-engine/blob/main/docs/v5-results.md
+- Version 5 native run: https://github.com/osasisorae/vowlock-arm-evidence-engine/actions/runs/31803354032
 - Final two-host run: https://github.com/osasisorae/vowlock-arm-evidence-engine/actions/runs/31785110768
 - Version 1 replication: https://github.com/osasisorae/vowlock-arm-evidence-engine/blob/main/docs/results.md

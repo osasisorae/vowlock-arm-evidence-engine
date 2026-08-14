@@ -131,6 +131,30 @@
     <p class="boundary"><strong>Decision:</strong> retain the deterministic template. Removing the model eliminates seconds of latency, roughly two gigabytes of resident model-server memory and an unverified natural-language failure surface. No human-comprehension advantage has been demonstrated.</p>
     <div class="links"><a href="https://github.com/osasisorae/vowlock-arm-evidence-engine/blob/main/docs/v4-results.md">Read Version 4</a><a href="https://github.com/osasisorae/vowlock-arm-evidence-engine/blob/main/docs/v4-protocol.md">Inspect registration</a><a href="https://github.com/osasisorae/vowlock-arm-evidence-engine/actions/runs/31800634600">Inspect native run</a></div>
   </section>
+
+  <section>
+    <div class="eyebrow">Verified explanation compiler · Version 5</div>
+    <p class="status">COMPLETE · EXHAUSTIVE DECLARED DOMAIN</p>
+    <h2>One permissible state. All 648 checked.</h2>
+    <p>Version 5 replaced fixture sampling with a compiler over the complete registered seven-field state space. Every result carries its authoritative decision, decisive rules, exact evidence, stable state ID and deterministic output hash. No model writes or judges the policy.</p>
+    <div class="metrics">
+      <div class="metric"><small>REGISTERED COVERAGE</small><strong>648/648</strong><span>three renderings · 1,944 distinct outputs</span></div>
+      <div class="metric"><small>CORRUPTIONS REJECTED</small><strong>8/8</strong><span>authority, evidence and provenance mutations</span></div>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Rendering</th><th>Outputs/second</th><th>Full-domain p50</th><th>Median bytes</th></tr></thead>
+        <tbody>
+          <tr><td>B0 · brief</td><td>50,378</td><td>12.856 ms</td><td>799.5</td></tr>
+          <tr><td>D0 · detailed</td><td>43,359</td><td>14.947 ms</td><td>1,052</td></tr>
+          <tr><td>P0 · progressive</td><td>33,351</td><td>19.439 ms</td><td>1,600</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>The declared policy contained 600 STOP states, 47 REQUEST_EVIDENCE states and exactly one PASS. The native Arm process peaked at 23,168 KiB RSS and used zero model bytes or network calls.</p>
+    <p class="boundary"><strong>Claim boundary:</strong> this is complete for the registered finite domain, not theorem-prover formal verification, real-device safety or evidence that people prefer or understand any rendering.</p>
+    <div class="links"><a href="https://github.com/osasisorae/vowlock-arm-evidence-engine/blob/main/docs/v5-results.md">Read Version 5</a><a href="https://github.com/osasisorae/vowlock-arm-evidence-engine/blob/main/docs/v5-protocol.md">Inspect registration</a><a href="https://github.com/osasisorae/vowlock-arm-evidence-engine/actions/runs/31803354032">Inspect native run</a></div>
+  </section>
 </main>
 </body>
 </html>

@@ -1,6 +1,7 @@
 # VowLock Arm Evidence Engine
 
 [![Arm64 benchmark](https://github.com/osasisorae/vowlock-arm-evidence-engine/actions/workflows/arm-benchmark.yml/badge.svg)](https://github.com/osasisorae/vowlock-arm-evidence-engine/actions/workflows/arm-benchmark.yml)
+[![V5 compiler](https://github.com/osasisorae/vowlock-arm-evidence-engine/actions/workflows/arm-v5.yml/badge.svg)](https://github.com/osasisorae/vowlock-arm-evidence-engine/actions/workflows/arm-v5.yml)
 [![Fast validation](https://github.com/osasisorae/vowlock-arm-evidence-engine/actions/workflows/validate.yml/badge.svg)](https://github.com/osasisorae/vowlock-arm-evidence-engine/actions/workflows/validate.yml)
 
 ![Replicated Arm benchmark result](docs/assets/result-card.svg)
@@ -11,9 +12,9 @@ This repository asks one narrow question: **does enabling Arm's KleidiAI kernels
 
 It is being created for the Cloud AI track of the Arm Create: AI Optimization Challenge. It is a new optimization artifact, not a claim that the existing VowLock application or the separate ADTC Setup Companion research scaffold was created during this hackathon.
 
-**Verdict:** KleidiAI was genuinely selected, but the sealed Runs 4–6 showed a mixed near-neutral result: +0.87% prompt processing and -1.58% generation. Version 2 found a material Q8→Q4 resource win. Version 3 then showed that runtime tuning cannot repair an invalid explanation policy. Version 4 moved authority into deterministic code and found the strongest optimization: remove the model from this task. The template passed 12/12 sealed fixtures in 0.0816 ms median; the 1.066 GB model took about 3.06 seconds, needed about 2.05 million KiB peak server RSS and still required fallback on half the cases.
+**Verdict:** KleidiAI was genuinely selected, but the sealed Runs 4–6 showed a mixed near-neutral result: +0.87% prompt processing and -1.58% generation. Version 2 found a material Q8→Q4 resource win. Version 3 showed that runtime tuning cannot repair an invalid explanation policy. Version 4 found the strongest optimization: remove the model from this task. Version 5 productized that result as a deterministic compiler: all 648 declared states passed every registered invariant across three renderings, with 8/8 corruptions rejected, zero model bytes and 23,168 KiB peak process RSS on native Arm.
 
-Quick links: [live evidence page](https://osasisorae.github.io/vowlock-arm-evidence-engine/) · [Version 4 decision](docs/v4-results.md) · [Version 3 result](docs/v3-results.md) · [Version 2 decision](docs/v2-results.md) · [Version 1 replication](docs/results.md) · [judge validation](docs/validation.md) · [Devpost write-up](docs/submission.md)
+Quick links: [live evidence page](https://osasisorae.github.io/vowlock-arm-evidence-engine/) · [Version 5 compiler result](docs/v5-results.md) · [Version 4 decision](docs/v4-results.md) · [Version 3 result](docs/v3-results.md) · [Version 2 decision](docs/v2-results.md) · [Version 1 replication](docs/results.md) · [judge validation](docs/validation.md) · [Devpost write-up](docs/submission.md)
 
 ## Version 2 follow-up
 
@@ -51,6 +52,12 @@ Version 4 was [registered](docs/v4-protocol.md) before implementation and execut
 The [native result](docs/v4-results.md) retained the model-free template. On twelve sealed fixtures, free-form generation passed 0/12, constrained prose passed 6/12, and the template passed 12/12. The hybrid reached 12/12 automatic checks only by falling back six times. T0's median was 0.0816 ms, compared with 3.0608 s for the hybrid; removing the model also avoids its 1.066 GB artifact and roughly 2.05 million KiB server peak RSS.
 
 A disclosed post-result qualitative audit found that the surface verifier had accepted factually misleading prose. Only 2/12 explanations were clearly adequate, one was ambiguous and nine were inadequate. Structured authority remained correct, but the result proves that a correct decision envelope does not make generated prose trustworthy. The model did not reach its registered threshold for a later human study and did not earn its place.
+
+## Version 5 verified explanation compiler
+
+Version 5 was [registered](docs/v5-protocol.md) before implementation. It converted V4's retained template into a strict compiler over the complete declared seven-field state space. Every result carries its authoritative decision, next action, decisive rule IDs, decisive evidence IDs, canonical state hash and compiled-output hash.
+
+The first [native Arm run](https://github.com/osasisorae/vowlock-arm-evidence-engine/actions/runs/31803354032) passed: 648/648 states, 1,944/1,944 outputs, 100% byte repeatability and 8/8 mutations rejected. Across 194,400 measured compilations, B0 produced about 50,378 outputs/s, D0 43,359 and P0 33,351. The process peaked at 23,168 KiB RSS with no model or network dependency. Full result: [`docs/v5-results.md`](docs/v5-results.md). Usage: [`docs/v5-using-the-compiler.md`](docs/v5-using-the-compiler.md).
 
 ## Why build this?
 

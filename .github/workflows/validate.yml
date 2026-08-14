@@ -30,6 +30,14 @@ jobs:
           python3 -m json.tool experiment.v3.json >/dev/null
           python3 -m json.tool schemas/experiment-v3.schema.json >/dev/null
           python3 v3_runtime.py validate
+          python3 -m json.tool experiment.v4.json >/dev/null
+          python3 -m json.tool schemas/experiment-v4.schema.json >/dev/null
+          python3 -m json.tool evidence/v4-run-1-ubuntu-22.04-arm.json >/dev/null
+          python3 -m json.tool evidence/v4-run-1-qualitative-review.json >/dev/null
+          python3 -m json.tool experiment.v5.json >/dev/null
+          python3 -m json.tool schemas/experiment-v5.schema.json >/dev/null
+          python3 -m json.tool evidence/v5-run-1-ubuntu-22.04-arm.json >/dev/null
+          python3 v5_proof.py --output results/v5-proof-demo.json >/dev/null
 
       - name: Run model-free Setup Companion fixture demo
         run: |
@@ -45,4 +53,5 @@ jobs:
             results/v2-fixture-demo.json
             results/v3-mutation-demo.json
             results/v3-sealed-reference-demo.json
+            results/v5-proof-demo.json
           retention-days: 7
