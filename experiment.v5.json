@@ -1,0 +1,88 @@
+{
+  "$schema": "./schemas/experiment-v5.schema.json",
+  "schema_version": "5.0",
+  "study_id": "vowlock-verified-explanation-compiler-v5",
+  "registered_at": "2026-08-14T14:02:00+01:00",
+  "status": "pre-registered-before-implementation-and-execution",
+  "prior_result_commit": "fa920920b80c5c9c0501a3fff91ee4f93bfd4632",
+  "research_question": "Can a deterministic explanation compiler cover the complete declared Setup Companion state space, preserve exact evidence provenance in several presentation forms and execute cheaply on Arm without a language model?",
+  "separation": {
+    "prior_study": "vowlock-arm-authority-allocation-v4",
+    "rule": "Version 5 productizes V4's model-removal decision. It is an exhaustive finite-domain compiler study, not a new language-model or human-comprehension experiment, and its measurements are not pooled with Versions 1–4."
+  },
+  "cost_policy": "Only free GitHub-hosted standard Arm runners, Python's standard library and repository source. No paid compute, API, subscription, model download or device.",
+  "host": {
+    "id": "ubuntu-22.04-arm",
+    "kind": "GitHub standard hosted Arm64 runner",
+    "minimum_logical_cpus": 4
+  },
+  "state_space": {
+    "device_class": ["resettable_test", "daily_use"],
+    "device_certified": [true, false, "unknown"],
+    "original_verifier_values_captured": [true, false],
+    "verifier_restored": [true, false, "unknown"],
+    "reboot_persistence_checked": [true, false, "unknown"],
+    "play_protect_scan": ["passed", "failed", "not_run"],
+    "device_owner_active": [true, false],
+    "expected_cartesian_states": 648
+  },
+  "policy": {
+    "terminal_precedence": ["daily_use_device", "active_device_owner", "certification_false", "verifier_restoration_false", "play_protect_failed"],
+    "missing_precedence": ["original_verifier_values", "certification", "verifier_restoration", "play_protect_scan", "reboot_persistence"],
+    "pass_condition": "resettable test device; certification, originals, restoration, reboot persistence and Play Protect pass; device owner inactive"
+  },
+  "variants": [
+    {"id": "B0", "name": "brief", "contract": "action plus every decisive reason and exact value"},
+    {"id": "D0", "name": "detailed", "contract": "action, decisive reasons and all seven typed evidence values"},
+    {"id": "P0", "name": "progressive", "contract": "summary, why, complete evidence list and next step in separately renderable sections"}
+  ],
+  "compiler_contract": {
+    "authority_fields": ["decision", "next_action", "decisive_rule_ids", "decisive_evidence_ids"],
+    "provenance_fields": ["state_id", "canonical_state_sha256", "compiled_output_sha256"],
+    "model_dependency": false,
+    "network_dependency": false,
+    "generated_commands": false,
+    "same_state_same_bytes": true
+  },
+  "exhaustive_invariants": [
+    "exactly 648 unique canonical states are generated",
+    "every terminal state returns STOP and leave_device_untouched",
+    "every non-terminal incomplete state requests the first missing observation in registered order",
+    "PASS occurs if and only if the complete pass condition holds",
+    "every decisive rule and evidence value is present in every rendering",
+    "D0 and P0 represent all seven evidence keys and exact typed values",
+    "two independent compilation passes are byte-identical",
+    "every provenance and compiled-output hash verifies",
+    "every registered mutation is rejected"
+  ],
+  "mutations": [
+    "replace_decision",
+    "replace_next_action",
+    "remove_decisive_rule",
+    "replace_decisive_evidence_value",
+    "remove_evidence_key",
+    "replace_state_id",
+    "replace_canonical_state_sha256",
+    "replace_compiled_output_sha256"
+  ],
+  "benchmark": {
+    "warmup_complete_state_space_rounds": 5,
+    "measured_complete_state_space_rounds": 100,
+    "variant_order_per_round": ["B0", "D0", "P0"],
+    "clock": "time.perf_counter_ns",
+    "record": ["nanoseconds per compiled output", "outputs per second", "p50/p95 complete-round time", "serialized output bytes", "process peak RSS", "reproduction time"]
+  },
+  "hard_gates": {
+    "state_count": 648,
+    "invariant_pass_rate": 1.0,
+    "deterministic_repeatability_rate": 1.0,
+    "mutation_recall": 1.0,
+    "unavailable_metrics_are_reported_not_estimated": true
+  },
+  "claims": {
+    "primary": "The compiler covers the complete declared finite state domain only if all 648 states pass every registered invariant in every rendering and all mutations are rejected.",
+    "performance": "Native Arm results describe this Python implementation, host image and declared 648-state workload; they are not a universal device benchmark.",
+    "human_boundary": "No claim that brief, detailed or progressive rendering improves comprehension, trust, accessibility or preference is permitted without a separate registered human study.",
+    "formal_boundary": "Exhaustive enumeration over a declared finite domain is not presented as theorem-prover formal verification or proof about undeclared states, operating systems or devices."
+  }
+}
