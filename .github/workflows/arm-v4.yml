@@ -1,0 +1,54 @@
+name: Arm64 V4 authority allocation
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  registered-v4:
+    name: V4 on ubuntu-22.04-arm
+    runs-on: ubuntu-22.04-arm
+    timeout-minutes: 180
+
+    steps:
+      - name: Check out frozen source
+        uses: actions/checkout@v6
+
+      - name: Prove the native Arm host
+        run: |
+          uname -a
+          test "$(uname -m)" = "aarch64"
+          lscpu
+          test "$(getconf _NPROCESSORS_ONLN)" -ge 4
+
+      - name: Install open-source build requirements
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y build-essential cmake curl git python3
+
+      - name: Run model-free apparatus gate
+        run: |
+          python3 -m unittest discover -s tests -v
+          python3 v4_authority.py --output results/v4-local-preflight.json
+
+      - name: Cache the pinned retained model
+        uses: actions/cache@v5
+        with:
+          path: model/*.gguf
+          key: v4-qwen15-q4-${{ runner.arch }}-dcd819ff
+
+      - name: Run the registered V4 study
+        env:
+          V4_HOST_LABEL: ubuntu-22.04-arm
+        run: ./scripts/run-v4.sh
+
+      - name: Preserve all Version 4 evidence
+        if: always()
+        uses: actions/upload-artifact@v6
+        with:
+          name: arm64-v4-evidence-${{ github.run_id }}
+          path: results/v4/
+          if-no-files-found: warn
+          retention-days: 30

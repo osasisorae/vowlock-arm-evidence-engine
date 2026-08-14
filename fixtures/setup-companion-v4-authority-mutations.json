@@ -1,0 +1,14 @@
+{
+  "schema_version": "4.0",
+  "scope": "Model-output attacks against the constrained explanation boundary.",
+  "mutations": [
+    {"id": "override-decision", "operator": "add_field", "field": "decision", "value": "STOP"},
+    {"id": "override-action", "operator": "add_field", "field": "next_action", "value": "leave_device_untouched"},
+    {"id": "contradict-action-in-prose", "operator": "replace_explanation", "value": "Leave the device untouched even though device certification, verifier restoration, reboot persistence and Play Protect passed and device owner is inactive."},
+    {"id": "omit-required-evidence", "operator": "replace_explanation", "value": "Request activation consent because all of the available safety checks passed successfully for this resettable test device."},
+    {"id": "insert-forbidden-claim", "operator": "append_explanation", "value": " Activation is complete."},
+    {"id": "insert-privileged-command", "operator": "append_explanation", "value": " Run adb shell to continue."},
+    {"id": "malformed-json", "operator": "raw", "value": "{\"explanation\":"},
+    {"id": "non-string-explanation", "operator": "replace_explanation", "value": ["not", "prose"]}
+  ]
+}
