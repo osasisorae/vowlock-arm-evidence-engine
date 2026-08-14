@@ -72,7 +72,7 @@
     <div class="eyebrow">Why it matters</div>
     <h2>Optimization needs an evidence trail.</h2>
     <p>Small local models can make private Setup Companion guidance possible where connectivity, specialist support and compute are limited. But enabling an accelerated backend is not evidence that the user experience improved. This repository is a reusable pattern for Arm developers: verify selection, compare fact-equivalent conditions, preserve raw evidence, replicate, and keep regressions visible.</p>
-    <p class="boundary"><strong>Claim boundary:</strong> the one-token contract is an equivalence canary. It does not establish that free-form device guidance is factual, safe or useful. Peak process memory was not independently measured.</p>
+    <p class="boundary"><strong>Version 1 claim boundary:</strong> the one-token contract is an equivalence canary. It does not establish that free-form device guidance is factual, safe or useful. Version 1 did not independently measure peak process memory; Version 2 below does.</p>
   </section>
 
   <section>
@@ -95,11 +95,27 @@
 
   <section>
     <div class="eyebrow">Registered follow-up</div>
-    <p class="status">VERSION 2 · MEASUREMENT IN PROGRESS</p>
+    <p class="status">VERSION 2 · COMPLETE</p>
     <h2>From one benchmark to a reusable laboratory.</h2>
-    <p>Version 2 was registered before execution. It adds Q8-to-Q4 quantization, a second 0.5B model, three workload shapes, two native Arm Ubuntu images, exact model size, cold-process peak RSS, cold first-output timing, real power counters when available, and three synthetic Setup Companion explanations with independent hard-failure checks.</p>
-    <p class="boundary"><strong>Separation rule:</strong> Version 2 is a new question. Its measurements will never be pooled into the sealed Version 1 result. No speedup, memory saving or quality result is claimed until the registered matrix finishes.</p>
-    <div class="links"><a href="https://github.com/osasisorae/vowlock-arm-evidence-engine/blob/main/docs/v2-protocol.md">Read the protocol</a><a href="https://github.com/osasisorae/vowlock-arm-evidence-engine/blob/main/experiment.v2.json">Inspect the manifest</a><a href="https://github.com/osasisorae/vowlock-arm-evidence-engine/actions/workflows/arm-v2.yml">View V2 runs</a></div>
+    <p>Version 2 was registered before execution. It compared Q8 and Q4, 1.5B and 0.5B models, three workload shapes and two native Arm Ubuntu images. It measured exact model size, cold-process peak RSS, cold first output and complete synthetic explanations.</p>
+    <div class="metrics">
+      <div class="metric"><small>Q8 → Q4 ARTIFACT</small><strong>−43.72%</strong><span>1.895 GB → 1.066 GB</span></div>
+      <div class="metric"><small>Q8 → Q4 PEAK RSS</small><strong>−34.68%</strong><span>replicated across both host images</span></div>
+    </div>
+    <p><strong>Decision:</strong> retain Qwen2.5 1.5B Q4_0 on the baseline Arm CPU path. It passed all three fixtures with byte-identical explanations across both runtimes and both host images. Reject the 0.5B model: it was 58–69% faster but failed quality. Reject the tested KleidiAI switch: it did not improve cold explanation latency.</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Condition</th><th>Ubuntu 22.04</th><th>Ubuntu 24.04</th><th>Decision</th></tr></thead>
+        <tbody>
+          <tr><td>1.5B Q4 baseline</td><td>3/3 · 5.77s mean</td><td>3/3 · 5.78s mean</td><td class="positive">Retain</td></tr>
+          <tr><td>1.5B Q4 + KleidiAI</td><td>3/3 · 5.84s mean</td><td>3/3 · 5.82s mean</td><td>Reject switch</td></tr>
+          <tr><td>1.5B Q8 baseline</td><td>0/3 · invalid text</td><td>2/3 · contradiction found</td><td class="regression">Reject</td></tr>
+          <tr><td>0.5B Q4</td><td>0–1/3</td><td>1/3</td><td class="regression">Reject</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="boundary"><strong>Separation rule:</strong> Version 2 is a new question and is never pooled into Version 1. Neither hosted runner exposed a real power counter, so power is reported as unavailable. All fixtures are synthetic; no device command was generated or executed.</p>
+    <div class="links"><a href="https://github.com/osasisorae/vowlock-arm-evidence-engine/blob/main/docs/v2-results.md">Read the result</a><a href="https://github.com/osasisorae/vowlock-arm-evidence-engine/blob/main/docs/v2-protocol.md">Read the protocol</a><a href="https://github.com/osasisorae/vowlock-arm-evidence-engine/actions/runs/31785110768">Inspect Run 2</a></div>
   </section>
 </main>
 </body>

@@ -1,23 +1,23 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="title desc">
-  <title id="title">VowLock Arm Evidence Engine replicated benchmark result</title>
-  <desc id="desc">KleidiAI improved prompt processing by 0.87 percent and reduced generation speed by 1.58 percent across three replicated Arm64 workflows.</desc>
+  <title id="title">VowLock Arm Evidence Engine Version 2 result</title>
+  <desc id="desc">Q4 reduced model size by 43.72 percent and peak memory by about 34.68 percent while the faster 0.5B model was rejected for failing synthetic safety fixtures.</desc>
   <rect width="1200" height="630" rx="28" fill="#f3efe3"/>
-  <rect x="34" y="34" width="1132" height="562" rx="22" fill="#fffdf7" stroke="#1c2c2a" stroke-width="3"/>
-  <text x="82" y="104" font-family="Georgia, serif" font-size="27" fill="#a64b2a">VOWLOCK ARM EVIDENCE ENGINE</text>
-  <text x="82" y="174" font-family="Georgia, serif" font-size="54" font-weight="700" fill="#172725">A switch is not a win.</text>
-  <text x="82" y="220" font-family="Arial, sans-serif" font-size="23" fill="#4d5b58">Three identical Arm64 workflows · Qwen2.5 1.5B Q4_0 · KleidiAI I8MM verified</text>
+  <rect x="34" y="34" width="1132" height="562" rx="22" fill="#fffdf7" stroke="#172725" stroke-width="3"/>
+  <text x="82" y="100" font-family="Georgia, serif" font-size="25" fill="#9b472e">VOWLOCK ARM EVIDENCE ENGINE · ARM CREATE 2026</text>
+  <text x="82" y="174" font-family="Georgia, serif" font-size="58" font-weight="700" fill="#172725">The fastest model lost.</text>
+  <text x="82" y="219" font-family="Arial, sans-serif" font-size="22" fill="#52615d">30 native Arm conditions · 2 Ubuntu images · 3 synthetic safety fixtures</text>
 
-  <rect x="82" y="274" width="480" height="190" rx="16" fill="#e8f0e8"/>
-  <text x="112" y="321" font-family="Arial, sans-serif" font-size="21" font-weight="700" fill="#2e5c48">PROMPT PROCESSING</text>
-  <text x="112" y="393" font-family="Georgia, serif" font-size="68" font-weight="700" fill="#2e5c48">+0.87%</text>
-  <text x="112" y="433" font-family="Arial, sans-serif" font-size="20" fill="#42534d">129.95 → 131.08 tokens/s</text>
+  <rect x="82" y="266" width="480" height="190" rx="16" fill="#e8f0e8"/>
+  <text x="112" y="313" font-family="Arial, sans-serif" font-size="20" font-weight="700" fill="#2e5c48">Q8 → Q4 ARTIFACT</text>
+  <text x="112" y="385" font-family="Georgia, serif" font-size="68" font-weight="700" fill="#2e5c48">−43.72%</text>
+  <text x="112" y="425" font-family="Arial, sans-serif" font-size="20" fill="#42534d">1.895 GB → 1.066 GB</text>
 
-  <rect x="590" y="274" width="480" height="190" rx="16" fill="#f3e6df"/>
-  <text x="620" y="321" font-family="Arial, sans-serif" font-size="21" font-weight="700" fill="#8a3c28">TOKEN GENERATION</text>
-  <text x="620" y="393" font-family="Georgia, serif" font-size="68" font-weight="700" fill="#8a3c28">−1.58%</text>
-  <text x="620" y="433" font-family="Arial, sans-serif" font-size="20" fill="#5f4942">35.15 → 34.59 tokens/s</text>
+  <rect x="590" y="266" width="480" height="190" rx="16" fill="#e8f0e8"/>
+  <text x="620" y="313" font-family="Arial, sans-serif" font-size="20" font-weight="700" fill="#2e5c48">Q8 → Q4 PEAK RSS</text>
+  <text x="620" y="385" font-family="Georgia, serif" font-size="68" font-weight="700" fill="#2e5c48">−34.68%</text>
+  <text x="620" y="425" font-family="Arial, sans-serif" font-size="20" fill="#42534d">replicated on both Arm host images</text>
 
-  <line x1="82" y1="506" x2="1070" y2="506" stroke="#c8c0ad" stroke-width="2"/>
-  <text x="82" y="548" font-family="Arial, sans-serif" font-size="21" fill="#172725">Verdict: backend active; mixed result replicated; no material overall speedup claimed.</text>
-  <text x="82" y="578" font-family="Arial, sans-serif" font-size="17" fill="#66716d">Runs 4–6 are the sealed comparison. Run 7 independently validates exact output equivalence.</text>
+  <line x1="82" y1="496" x2="1070" y2="496" stroke="#c8c0ad" stroke-width="2"/>
+  <text x="82" y="538" font-family="Arial, sans-serif" font-size="22" font-weight="700" fill="#172725">Retain 1.5B Q4 · Reject 0.5B: 58–69% faster, but failed quality.</text>
+  <text x="82" y="570" font-family="Arial, sans-serif" font-size="17" fill="#66716d">KleidiAI active, not useful for this slice · Power unavailable, not estimated · No device touched</text>
 </svg>

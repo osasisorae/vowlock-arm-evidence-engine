@@ -1,0 +1,731 @@
+{
+  "host": "ubuntu-24.04-arm",
+  "model_scale_comparison": {
+    "after_model": "qwen2.5-0.5b-q4_0",
+    "before_model": "qwen2.5-1.5b-q4_0",
+    "estimated_workload_latency": [
+      {
+        "after_seconds": 2.559734926948547,
+        "before_seconds": 7.5431181952293676,
+        "duration_reduction_percent": 66.06529474021173,
+        "workload_id": "balanced"
+      },
+      {
+        "after_seconds": 14.107758259993666,
+        "before_seconds": 33.91909878333122,
+        "duration_reduction_percent": 58.40762648173127,
+        "workload_id": "prompt-heavy"
+      },
+      {
+        "after_seconds": 2.5419918399134285,
+        "before_seconds": 8.146958509280388,
+        "duration_reduction_percent": 68.7982719315707,
+        "workload_id": "generation-heavy"
+      }
+    ],
+    "quality_boundary": "A speed or size gain is not product-valid when the smaller model fails registered semantic fixtures."
+  },
+  "performance": [
+    {
+      "estimated_workload_seconds": 7.790739639583663,
+      "generation_tokens": 128,
+      "generation_tokens_per_second": 37.977359,
+      "model_id": "qwen2.5-1.5b-q8_0",
+      "prompt_tokens": 512,
+      "prompt_tokens_per_second": 115.828969,
+      "repetitions": 3,
+      "runtime": "baseline",
+      "workload_id": "balanced"
+    },
+    {
+      "estimated_workload_seconds": 35.68320951590861,
+      "generation_tokens": 32,
+      "generation_tokens_per_second": 38.354349,
+      "model_id": "qwen2.5-1.5b-q8_0",
+      "prompt_tokens": 2048,
+      "prompt_tokens_per_second": 58.768022,
+      "repetitions": 3,
+      "runtime": "baseline",
+      "workload_id": "prompt-heavy"
+    },
+    {
+      "estimated_workload_seconds": 7.768785946336635,
+      "generation_tokens": 256,
+      "generation_tokens_per_second": 37.311345,
+      "model_id": "qwen2.5-1.5b-q8_0",
+      "prompt_tokens": 128,
+      "prompt_tokens_per_second": 141.030975,
+      "repetitions": 3,
+      "runtime": "baseline",
+      "workload_id": "generation-heavy"
+    },
+    {
+      "estimated_workload_seconds": 7.5431181952293676,
+      "generation_tokens": 128,
+      "generation_tokens_per_second": 35.323364,
+      "model_id": "qwen2.5-1.5b-q4_0",
+      "prompt_tokens": 512,
+      "prompt_tokens_per_second": 130.630431,
+      "repetitions": 3,
+      "runtime": "baseline",
+      "workload_id": "balanced"
+    },
+    {
+      "estimated_workload_seconds": 33.91909878333122,
+      "generation_tokens": 32,
+      "generation_tokens_per_second": 35.677443,
+      "model_id": "qwen2.5-1.5b-q4_0",
+      "prompt_tokens": 2048,
+      "prompt_tokens_per_second": 62.018934,
+      "repetitions": 3,
+      "runtime": "baseline",
+      "workload_id": "prompt-heavy"
+    },
+    {
+      "estimated_workload_seconds": 8.146958509280388,
+      "generation_tokens": 256,
+      "generation_tokens_per_second": 34.76788,
+      "model_id": "qwen2.5-1.5b-q4_0",
+      "prompt_tokens": 128,
+      "prompt_tokens_per_second": 163.298508,
+      "repetitions": 3,
+      "runtime": "baseline",
+      "workload_id": "generation-heavy"
+    },
+    {
+      "estimated_workload_seconds": 7.676213482217769,
+      "generation_tokens": 128,
+      "generation_tokens_per_second": 33.906071,
+      "model_id": "qwen2.5-1.5b-q4_0",
+      "prompt_tokens": 512,
+      "prompt_tokens_per_second": 131.245762,
+      "repetitions": 3,
+      "runtime": "kleidiai",
+      "workload_id": "balanced"
+    },
+    {
+      "estimated_workload_seconds": 33.78671871538326,
+      "generation_tokens": 32,
+      "generation_tokens_per_second": 34.267769,
+      "model_id": "qwen2.5-1.5b-q4_0",
+      "prompt_tokens": 2048,
+      "prompt_tokens_per_second": 62.338491,
+      "repetitions": 3,
+      "runtime": "kleidiai",
+      "workload_id": "prompt-heavy"
+    },
+    {
+      "estimated_workload_seconds": 8.357568451000493,
+      "generation_tokens": 256,
+      "generation_tokens_per_second": 33.779664,
+      "model_id": "qwen2.5-1.5b-q4_0",
+      "prompt_tokens": 128,
+      "prompt_tokens_per_second": 164.303882,
+      "repetitions": 3,
+      "runtime": "kleidiai",
+      "workload_id": "generation-heavy"
+    },
+    {
+      "estimated_workload_seconds": 2.559734926948547,
+      "generation_tokens": 128,
+      "generation_tokens_per_second": 113.656771,
+      "model_id": "qwen2.5-0.5b-q4_0",
+      "prompt_tokens": 512,
+      "prompt_tokens_per_second": 357.158509,
+      "repetitions": 3,
+      "runtime": "baseline",
+      "workload_id": "balanced"
+    },
+    {
+      "estimated_workload_seconds": 14.107758259993666,
+      "generation_tokens": 32,
+      "generation_tokens_per_second": 114.587106,
+      "model_id": "qwen2.5-0.5b-q4_0",
+      "prompt_tokens": 2048,
+      "prompt_tokens_per_second": 148.099995,
+      "repetitions": 3,
+      "runtime": "baseline",
+      "workload_id": "prompt-heavy"
+    },
+    {
+      "estimated_workload_seconds": 2.5419918399134285,
+      "generation_tokens": 256,
+      "generation_tokens_per_second": 112.525569,
+      "model_id": "qwen2.5-0.5b-q4_0",
+      "prompt_tokens": 128,
+      "prompt_tokens_per_second": 479.484515,
+      "repetitions": 3,
+      "runtime": "baseline",
+      "workload_id": "generation-heavy"
+    },
+    {
+      "estimated_workload_seconds": 2.6275054700962586,
+      "generation_tokens": 128,
+      "generation_tokens_per_second": 105.292418,
+      "model_id": "qwen2.5-0.5b-q4_0",
+      "prompt_tokens": 512,
+      "prompt_tokens_per_second": 362.646455,
+      "repetitions": 3,
+      "runtime": "kleidiai",
+      "workload_id": "balanced"
+    },
+    {
+      "estimated_workload_seconds": 14.092878250260048,
+      "generation_tokens": 32,
+      "generation_tokens_per_second": 108.785345,
+      "model_id": "qwen2.5-0.5b-q4_0",
+      "prompt_tokens": 2048,
+      "prompt_tokens_per_second": 148.419553,
+      "repetitions": 3,
+      "runtime": "kleidiai",
+      "workload_id": "prompt-heavy"
+    },
+    {
+      "estimated_workload_seconds": 2.7018562928172214,
+      "generation_tokens": 256,
+      "generation_tokens_per_second": 105.04191,
+      "model_id": "qwen2.5-0.5b-q4_0",
+      "prompt_tokens": 128,
+      "prompt_tokens_per_second": 483.504535,
+      "repetitions": 3,
+      "runtime": "kleidiai",
+      "workload_id": "generation-heavy"
+    }
+  ],
+  "quantization_comparison": {
+    "after_model": "qwen2.5-1.5b-q4_0",
+    "all_available_semantic_checks_passed": false,
+    "artifact_size_reduction_percent": 43.7208154856902,
+    "before_model": "qwen2.5-1.5b-q8_0",
+    "estimated_workload_latency": [
+      {
+        "after_seconds": 7.5431181952293676,
+        "before_seconds": 7.790739639583663,
+        "duration_reduction_percent": 3.1784073888975195,
+        "workload_id": "balanced"
+      },
+      {
+        "after_seconds": 33.91909878333122,
+        "before_seconds": 35.68320951590861,
+        "duration_reduction_percent": 4.943811827775457,
+        "workload_id": "prompt-heavy"
+      },
+      {
+        "after_seconds": 8.146958509280388,
+        "before_seconds": 7.768785946336635,
+        "duration_reduction_percent": -4.86784634762758,
+        "workload_id": "generation-heavy"
+      }
+    ],
+    "peak_rss_reduction_percent": 34.68492591985546,
+    "registered_claim_passed": false,
+    "registered_claim_threshold_percent": 20
+  },
+  "resources": {
+    "qwen2.5-0.5b-q4_0--baseline": {
+      "artifact_bytes": 428730208,
+      "cold_first_output_definition": "fresh-process wall time through one deterministic generated token; proxy, not server TTFT",
+      "cold_first_output_seconds": 0.95,
+      "peak_rss_kib": 1070768,
+      "power": {
+        "available": false,
+        "energy_deltas": [],
+        "note": "Unavailable means no readable monotonic powercap counter was exposed; no estimate was substituted."
+      }
+    },
+    "qwen2.5-0.5b-q4_0--kleidiai": {
+      "artifact_bytes": 428730208,
+      "cold_first_output_definition": "fresh-process wall time through one deterministic generated token; proxy, not server TTFT",
+      "cold_first_output_seconds": 1.35,
+      "peak_rss_kib": 1065040,
+      "power": {
+        "available": false,
+        "energy_deltas": [],
+        "note": "Unavailable means no readable monotonic powercap counter was exposed; no estimate was substituted."
+      }
+    },
+    "qwen2.5-1.5b-q4_0--baseline": {
+      "artifact_bytes": 1066227232,
+      "cold_first_output_definition": "fresh-process wall time through one deterministic generated token; proxy, not server TTFT",
+      "cold_first_output_seconds": 1.53,
+      "peak_rss_kib": 2741676,
+      "power": {
+        "available": false,
+        "energy_deltas": [],
+        "note": "Unavailable means no readable monotonic powercap counter was exposed; no estimate was substituted."
+      }
+    },
+    "qwen2.5-1.5b-q4_0--kleidiai": {
+      "artifact_bytes": 1066227232,
+      "cold_first_output_definition": "fresh-process wall time through one deterministic generated token; proxy, not server TTFT",
+      "cold_first_output_seconds": 1.47,
+      "peak_rss_kib": 2742072,
+      "power": {
+        "available": false,
+        "energy_deltas": [],
+        "note": "Unavailable means no readable monotonic powercap counter was exposed; no estimate was substituted."
+      }
+    },
+    "qwen2.5-1.5b-q8_0--baseline": {
+      "artifact_bytes": 1894532128,
+      "cold_first_output_definition": "fresh-process wall time through one deterministic generated token; proxy, not server TTFT",
+      "cold_first_output_seconds": 1.99,
+      "peak_rss_kib": 4197616,
+      "power": {
+        "available": false,
+        "energy_deltas": [],
+        "note": "Unavailable means no readable monotonic powercap counter was exposed; no estimate was substituted."
+      }
+    }
+  },
+  "schema_version": "2.0",
+  "semantics": {
+    "qwen2.5-0.5b-q4_0--baseline": {
+      "agent_measurement": {
+        "definition": "fresh model process from prompt submission through complete explanation; verifier executes immediately afterward",
+        "max_cold_explanation_seconds": 2.38,
+        "mean_cold_explanation_seconds": 2.0766666666666667,
+        "quality_pass_rate": 0.3333333333333333
+      },
+      "all_passed": false,
+      "fixture_count": 3,
+      "passed_count": 1,
+      "results": [
+        {
+          "candidate": {
+            "decision": "PROCEED",
+            "evidence_ids": [
+              "verifier_restored",
+              "reboot_persistence_checked",
+              "play_protect_scan"
+            ],
+            "next_action": "request_activation_consent"
+          },
+          "checks": {
+            "decision_matches": true,
+            "explanation_is_substantive": false,
+            "explanation_mentions_evidence_concepts": false,
+            "next_action_matches": true,
+            "required_evidence_present": true
+          },
+          "cold_explanation_seconds": 1.76,
+          "fixture_id": "ready-after-restoration",
+          "generator_peak_rss_kib": 1080912,
+          "hard_failures": [
+            "explanation_is_substantive",
+            "explanation_mentions_evidence_concepts"
+          ],
+          "passed": false
+        },
+        {
+          "candidate": {
+            "decision": "STOP",
+            "evidence_ids": [
+              "original_verifier_values_captured",
+              "verifier_restored",
+              "play_protect_scan"
+            ],
+            "explanation": "The state indicates that the device is in a state of play_protect_scan, which means it is not yet in a state of play. The original_verifier_values_captured and verifier_restored keys are not present, and the play_protect_scan key is not set. The state supports the decision of STOP.",
+            "next_action": "leave_device_untouched"
+          },
+          "checks": {
+            "decision_matches": true,
+            "explanation_is_substantive": true,
+            "explanation_mentions_evidence_concepts": true,
+            "next_action_matches": true,
+            "required_evidence_present": true
+          },
+          "cold_explanation_seconds": 2.38,
+          "fixture_id": "unknown-original-verifier-state",
+          "generator_peak_rss_kib": 1081108,
+          "hard_failures": [],
+          "passed": true
+        },
+        {
+          "candidate": {
+            "decision": "COLLECT_EVIDENCE",
+            "evidence_ids": [
+              "verifier_restored",
+              "reboot_persistence_checked",
+              "play_protect_scan"
+            ],
+            "explanation": "The observed state indicates that the device has been restored, verified, and protected, which are key components of the verification process.",
+            "next_action": "verify_reboot_persistence"
+          },
+          "checks": {
+            "decision_matches": true,
+            "explanation_is_substantive": true,
+            "explanation_mentions_evidence_concepts": false,
+            "next_action_matches": true,
+            "required_evidence_present": true
+          },
+          "cold_explanation_seconds": 2.09,
+          "fixture_id": "reboot-check-missing",
+          "generator_peak_rss_kib": 1081148,
+          "hard_failures": [
+            "explanation_mentions_evidence_concepts"
+          ],
+          "passed": false
+        }
+      ],
+      "schema_version": "1.0",
+      "scope": "synthetic-only"
+    },
+    "qwen2.5-0.5b-q4_0--kleidiai": {
+      "agent_measurement": {
+        "definition": "fresh model process from prompt submission through complete explanation; verifier executes immediately afterward",
+        "max_cold_explanation_seconds": 2.83,
+        "mean_cold_explanation_seconds": 2.51,
+        "quality_pass_rate": 0.3333333333333333
+      },
+      "all_passed": false,
+      "fixture_count": 3,
+      "passed_count": 1,
+      "results": [
+        {
+          "candidate": {
+            "decision": "PROCEED",
+            "evidence_ids": [
+              "verifier_restored",
+              "reboot_persistence_checked",
+              "play_protect_scan"
+            ],
+            "next_action": "request_activation_consent"
+          },
+          "checks": {
+            "decision_matches": true,
+            "explanation_is_substantive": false,
+            "explanation_mentions_evidence_concepts": false,
+            "next_action_matches": true,
+            "required_evidence_present": true
+          },
+          "cold_explanation_seconds": 2.17,
+          "fixture_id": "ready-after-restoration",
+          "generator_peak_rss_kib": 1075072,
+          "hard_failures": [
+            "explanation_is_substantive",
+            "explanation_mentions_evidence_concepts"
+          ],
+          "passed": false
+        },
+        {
+          "candidate": {
+            "decision": "STOP",
+            "evidence_ids": [
+              "original_verifier_values_captured",
+              "verifier_restored",
+              "play_protect_scan"
+            ],
+            "explanation": "The state indicates that the device is in a state of play_protect_scan, which means it is not yet in use. The original_verifier_values_captured and verifier_restored keys are not present, indicating that the state is not yet verified. The STOP key is used to indicate the end of the state.",
+            "next_action": "leave_device_untouched"
+          },
+          "checks": {
+            "decision_matches": true,
+            "explanation_is_substantive": true,
+            "explanation_mentions_evidence_concepts": true,
+            "next_action_matches": true,
+            "required_evidence_present": true
+          },
+          "cold_explanation_seconds": 2.83,
+          "fixture_id": "unknown-original-verifier-state",
+          "generator_peak_rss_kib": 1075076,
+          "hard_failures": [],
+          "passed": true
+        },
+        {
+          "candidate": {
+            "decision": "COLLECT_EVIDENCE",
+            "evidence_ids": [
+              "verifier_restored",
+              "reboot_persistence_checked",
+              "play_protect_scan"
+            ],
+            "explanation": "The observed state indicates that the device has been restored, verified, and protected, which are key components of the verification process.",
+            "next_action": "verify_reboot_persistence"
+          },
+          "checks": {
+            "decision_matches": true,
+            "explanation_is_substantive": true,
+            "explanation_mentions_evidence_concepts": false,
+            "next_action_matches": true,
+            "required_evidence_present": true
+          },
+          "cold_explanation_seconds": 2.53,
+          "fixture_id": "reboot-check-missing",
+          "generator_peak_rss_kib": 1075220,
+          "hard_failures": [
+            "explanation_mentions_evidence_concepts"
+          ],
+          "passed": false
+        }
+      ],
+      "schema_version": "1.0",
+      "scope": "synthetic-only"
+    },
+    "qwen2.5-1.5b-q4_0--baseline": {
+      "agent_measurement": {
+        "definition": "fresh model process from prompt submission through complete explanation; verifier executes immediately afterward",
+        "max_cold_explanation_seconds": 6.05,
+        "mean_cold_explanation_seconds": 5.783333333333334,
+        "quality_pass_rate": 1.0
+      },
+      "all_passed": true,
+      "fixture_count": 3,
+      "passed_count": 3,
+      "results": [
+        {
+          "candidate": {
+            "decision": "PROCEED",
+            "evidence_ids": [
+              "verifier_restored",
+              "reboot_persistence_checked",
+              "play_protect_scan"
+            ],
+            "explanation": "The state supports the decision to proceed because all required evidence IDs are present: 'verifier_restored', 'reboot_persistence_checked', and 'play_protect_scan'. These checks indicate that the device is certified, has been restored, and has passed a play protect scan, which are necessary prerequisites for proceeding with the offline setup process.",
+            "next_action": "request_activation_consent"
+          },
+          "checks": {
+            "decision_matches": true,
+            "explanation_is_substantive": true,
+            "explanation_mentions_evidence_concepts": true,
+            "next_action_matches": true,
+            "required_evidence_present": true
+          },
+          "cold_explanation_seconds": 6.05,
+          "fixture_id": "ready-after-restoration",
+          "generator_peak_rss_kib": 2762104,
+          "hard_failures": [],
+          "passed": true
+        },
+        {
+          "candidate": {
+            "decision": "STOP",
+            "evidence_ids": [
+              "original_verifier_values_captured",
+              "verifier_restored",
+              "play_protect_scan"
+            ],
+            "explanation": "The state indicates that the original verifier values have not been captured, the verifier has not been restored, and the play protect scan has not been run. Since these are the required evidence to proceed, the decision is to stop and leave the device untouched.",
+            "next_action": "leave_device_untouched"
+          },
+          "checks": {
+            "decision_matches": true,
+            "explanation_is_substantive": true,
+            "explanation_mentions_evidence_concepts": true,
+            "next_action_matches": true,
+            "required_evidence_present": true
+          },
+          "cold_explanation_seconds": 5.53,
+          "fixture_id": "unknown-original-verifier-state",
+          "generator_peak_rss_kib": 2762220,
+          "hard_failures": [],
+          "passed": true
+        },
+        {
+          "candidate": {
+            "decision": "COLLECT_EVIDENCE",
+            "evidence_ids": [
+              "verifier_restored",
+              "reboot_persistence_checked",
+              "play_protect_scan"
+            ],
+            "explanation": "The state indicates that the device is resettable and certified, the play protect scan is passed, and the verifier has been restored. However, the reboot persistence check is not yet performed. Collecting these evidence IDs will allow us to proceed with the verification of reboot persistence.",
+            "next_action": "verify_reboot_persistence"
+          },
+          "checks": {
+            "decision_matches": true,
+            "explanation_is_substantive": true,
+            "explanation_mentions_evidence_concepts": true,
+            "next_action_matches": true,
+            "required_evidence_present": true
+          },
+          "cold_explanation_seconds": 5.77,
+          "fixture_id": "reboot-check-missing",
+          "generator_peak_rss_kib": 2762640,
+          "hard_failures": [],
+          "passed": true
+        }
+      ],
+      "schema_version": "1.0",
+      "scope": "synthetic-only"
+    },
+    "qwen2.5-1.5b-q4_0--kleidiai": {
+      "agent_measurement": {
+        "definition": "fresh model process from prompt submission through complete explanation; verifier executes immediately afterward",
+        "max_cold_explanation_seconds": 6.09,
+        "mean_cold_explanation_seconds": 5.82,
+        "quality_pass_rate": 1.0
+      },
+      "all_passed": true,
+      "fixture_count": 3,
+      "passed_count": 3,
+      "results": [
+        {
+          "candidate": {
+            "decision": "PROCEED",
+            "evidence_ids": [
+              "verifier_restored",
+              "reboot_persistence_checked",
+              "play_protect_scan"
+            ],
+            "explanation": "The state supports the decision to proceed because all required evidence IDs are present: 'verifier_restored', 'reboot_persistence_checked', and 'play_protect_scan'. These checks indicate that the device is certified, has been restored, and has passed a play protect scan, which are necessary prerequisites for proceeding with the offline setup process.",
+            "next_action": "request_activation_consent"
+          },
+          "checks": {
+            "decision_matches": true,
+            "explanation_is_substantive": true,
+            "explanation_mentions_evidence_concepts": true,
+            "next_action_matches": true,
+            "required_evidence_present": true
+          },
+          "cold_explanation_seconds": 6.09,
+          "fixture_id": "ready-after-restoration",
+          "generator_peak_rss_kib": 2762144,
+          "hard_failures": [],
+          "passed": true
+        },
+        {
+          "candidate": {
+            "decision": "STOP",
+            "evidence_ids": [
+              "original_verifier_values_captured",
+              "verifier_restored",
+              "play_protect_scan"
+            ],
+            "explanation": "The state indicates that the original verifier values have not been captured, the verifier has not been restored, and the play protect scan has not been run. Since these are the required evidence to proceed, the decision is to stop and leave the device untouched.",
+            "next_action": "leave_device_untouched"
+          },
+          "checks": {
+            "decision_matches": true,
+            "explanation_is_substantive": true,
+            "explanation_mentions_evidence_concepts": true,
+            "next_action_matches": true,
+            "required_evidence_present": true
+          },
+          "cold_explanation_seconds": 5.54,
+          "fixture_id": "unknown-original-verifier-state",
+          "generator_peak_rss_kib": 2762396,
+          "hard_failures": [],
+          "passed": true
+        },
+        {
+          "candidate": {
+            "decision": "COLLECT_EVIDENCE",
+            "evidence_ids": [
+              "verifier_restored",
+              "reboot_persistence_checked",
+              "play_protect_scan"
+            ],
+            "explanation": "The state indicates that the device is resettable and certified, the play protect scan is passed, and the verifier has been restored. However, the reboot persistence check is not yet performed. Collecting these evidence IDs will allow us to proceed with the verification of reboot persistence.",
+            "next_action": "verify_reboot_persistence"
+          },
+          "checks": {
+            "decision_matches": true,
+            "explanation_is_substantive": true,
+            "explanation_mentions_evidence_concepts": true,
+            "next_action_matches": true,
+            "required_evidence_present": true
+          },
+          "cold_explanation_seconds": 5.83,
+          "fixture_id": "reboot-check-missing",
+          "generator_peak_rss_kib": 2762816,
+          "hard_failures": [],
+          "passed": true
+        }
+      ],
+      "schema_version": "1.0",
+      "scope": "synthetic-only"
+    },
+    "qwen2.5-1.5b-q8_0--baseline": {
+      "agent_measurement": {
+        "definition": "fresh model process from prompt submission through complete explanation; verifier executes immediately afterward",
+        "max_cold_explanation_seconds": 6.93,
+        "mean_cold_explanation_seconds": 6.413333333333334,
+        "quality_pass_rate": 0.6666666666666666
+      },
+      "all_passed": false,
+      "fixture_count": 3,
+      "passed_count": 2,
+      "results": [
+        {
+          "candidate": {
+            "decision": "PROCEED",
+            "evidence_ids": [
+              "verifier_restored",
+              "reboot_persistence_checked",
+              "play_protect_scan"
+            ],
+            "explanation": "The state indicates that the device has been restored from a verifier, rebooted to persistence, and the play protect scan has passed. These conditions suggest that the device is ready for activation and consent to be used. Proceeding with the request for activation consent is appropriate.",
+            "next_action": "request_activation_consent"
+          },
+          "checks": {
+            "decision_matches": true,
+            "explanation_is_substantive": true,
+            "explanation_mentions_evidence_concepts": true,
+            "next_action_matches": true,
+            "required_evidence_present": true
+          },
+          "cold_explanation_seconds": 5.99,
+          "fixture_id": "ready-after-restoration",
+          "generator_peak_rss_kib": 4218116,
+          "hard_failures": [],
+          "passed": true
+        },
+        {
+          "candidate": {
+            "decision": "STOP",
+            "evidence_ids": [
+              "original_verifier_values_captured",
+              "verifier_restored",
+              "play_protect_scan"
+            ],
+            "explanation": "The state indicates that the original verifier values were not captured, the verifier was not restored, and the play protect scan was not run. This suggests that the device is in an unverified state, which is not ideal for security. However, since the device is owned by the user and the play protect scan is not run, it is not necessary to leave the device untouched. The user can run the play protect scan and restore the verifier if needed.",
+            "next_action": "leave_device_untouched"
+          },
+          "checks": {
+            "decision_matches": true,
+            "explanation_is_substantive": true,
+            "explanation_mentions_evidence_concepts": true,
+            "next_action_matches": true,
+            "required_evidence_present": true
+          },
+          "cold_explanation_seconds": 6.93,
+          "fixture_id": "unknown-original-verifier-state",
+          "generator_peak_rss_kib": 4211312,
+          "hard_failures": [],
+          "passed": true
+        },
+        {
+          "candidate": {
+            "decision": "COLLECT_EVIDENCE",
+            "evidence_ids": [
+              "verifier_restored",
+              "reboot_persistence_checked",
+              "play_protect_scan"
+            ],
+            "explanation": "The state indicates that the device is resettable, certified, and that the play protect scan has passed. However, the reboot persistence check is not yet verified. Since reboot persistence is crucial for ensuring the device can be safely rebooted without losing data, collecting evidence to verify this feature is necessary before proceeding with the next action.",
+            "next_action": "verify_reboot_persistence"
+          },
+          "checks": {
+            "decision_matches": true,
+            "explanation_is_substantive": true,
+            "explanation_mentions_evidence_concepts": false,
+            "next_action_matches": true,
+            "required_evidence_present": true
+          },
+          "cold_explanation_seconds": 6.32,
+          "fixture_id": "reboot-check-missing",
+          "generator_peak_rss_kib": 4218496,
+          "hard_failures": [
+            "explanation_mentions_evidence_concepts"
+          ],
+          "passed": false
+        }
+      ],
+      "schema_version": "1.0",
+      "scope": "synthetic-only"
+    }
+  },
+  "separate_from": "sealed-runs-4-6",
+  "study_id": "vowlock-arm-evidence-engine-v2"
+}

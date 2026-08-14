@@ -1,0 +1,31 @@
+{
+  "schema_version": "1.0",
+  "github_run_id": 31785110768,
+  "url": "https://github.com/osasisorae/vowlock-arm-evidence-engine/actions/runs/31785110768",
+  "run_commit": "6dceab7ad7494fbba21fe2380aa8709d5cd0df99",
+  "review_type": "non-blinded developer-side qualitative audit",
+  "independent_human_review_complete": false,
+  "findings": [
+    {
+      "condition": "qwen2.5-1.5b-q4_0 baseline and KleidiAI",
+      "finding": "All three candidates passed the deterministic evaluator. Candidate files were byte-identical between runtime variants and across Ubuntu 22.04 and Ubuntu 24.04 Arm images.",
+      "decision": "retain as the only supported model and quantization condition for the next synthetic Setup Companion experiment"
+    },
+    {
+      "condition": "qwen2.5-1.5b-q8_0 on ubuntu-22.04-arm",
+      "finding": "All three candidate files contained invalid or nonsensical text and no valid JSON object.",
+      "decision": "reject"
+    },
+    {
+      "condition": "qwen2.5-1.5b-q8_0 on ubuntu-24.04-arm",
+      "finding": "Two of three candidates passed deterministic structure. The STOP fixture nevertheless contradicted its own action by saying it was not necessary to leave the device untouched; the reboot fixture omitted required verifier-restoration reasoning.",
+      "decision": "reject pending a separately investigated toolchain-output stability question"
+    },
+    {
+      "condition": "qwen2.5-0.5b-q4_0 baseline and KleidiAI",
+      "finding": "Only zero or one of three fixtures passed per condition. Outputs were malformed, incomplete or insufficiently grounded despite large speed and memory gains.",
+      "decision": "reject; efficiency does not cross the quality boundary"
+    }
+  ],
+  "boundary": "This audit is not blinded or independent and does not establish real-device safety. It records obvious semantic contradictions that the deterministic verifier cannot fully judge."
+}

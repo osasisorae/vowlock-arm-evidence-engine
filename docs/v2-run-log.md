@@ -15,3 +15,15 @@ Version 2 is separate from the sealed Version 1 Runs 4–6. Failures here are no
 Run 1 also found two evaluator defects. First, the evaluator required literal underscore-separated evidence IDs inside prose even when the candidate's dedicated `evidence_ids` array was correct and the explanation expressed the same facts naturally. That rule was stricter and more brittle than the registered requirement. Second, invalid UTF-8 raised an exception instead of becoming a clean failed candidate. The next harness version repairs those two observations without changing any registered model, hash, prompt, fixture, workload, threshold or host.
 
 The workflow exit policy is also corrected: an experimental claim failure now leaves a successful apparatus run whose summary says `registered_claim_passed: false`. Operational success and hypothesis support are different outcomes.
+
+## Run 2 — repaired apparatus, resource result retained
+
+- Workflow: [31785110768](https://github.com/osasisorae/vowlock-arm-evidence-engine/actions/runs/31785110768)
+- Commit: `6dceab7`
+- Hosts: `ubuntu-22.04-arm` completed in 21m50s; `ubuntu-24.04-arm` completed in 19m51s.
+- Apparatus: both jobs passed, preserved all registered raw conditions and added per-explanation cold latency and peak RSS. A green job now means the apparatus completed; the summary independently records whether the experimental claim passed.
+- Repaired verifier: valid 1.5B Q4_0 natural-language evidence passed 3/3 in all four host/runtime combinations. Invalid Q8_0 bytes became explicit failed candidates rather than a decoder crash. The genuine 0.5B and Q8_0 quality failures remained failures.
+- Resource result: Q4_0 again reduced exact artifact size by 43.72% and cold peak RSS by 34.67–34.68%.
+- Product decision: retain 1.5B Q4_0 baseline; reject the tested KleidiAI switch, 0.5B model and Q8_0 condition for this synthetic product slice.
+
+The full decision table and claim boundaries are in [`v2-results.md`](v2-results.md). Post-processing under commit `76e3a09` adds operation-weighted estimated time to the preserved Run 2 summaries without changing any raw measurement.

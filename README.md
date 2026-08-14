@@ -10,15 +10,17 @@ This repository asks one narrow question: **does enabling Arm's KleidiAI kernels
 
 It is being created for the Cloud AI track of the Arm Create: AI Optimization Challenge. It is a new optimization artifact, not a claim that the existing VowLock application or the separate ADTC Setup Companion research scaffold was created during this hackathon.
 
-**Verdict:** KleidiAI was genuinely selected, but the sealed Runs 4–6 showed a mixed near-neutral result: +0.87% prompt processing and -1.58% generation. The project keeps both numbers visible.
+**Verdict:** KleidiAI was genuinely selected, but the sealed Runs 4–6 showed a mixed near-neutral result: +0.87% prompt processing and -1.58% generation. The separately registered Version 2 found the useful optimization elsewhere: Q4_0 was 43.72% smaller and used about 34.68% less peak memory than Q8_0 while the retained 1.5B Q4_0 condition passed every synthetic fixture. The faster 0.5B model failed quality and was rejected.
 
-Quick links: [live evidence page](https://osasisorae.github.io/vowlock-arm-evidence-engine/) · [replicated results](docs/results.md) · [judge validation](docs/validation.md) · [complete run log](docs/run-log.md) · [Devpost write-up](docs/submission.md)
+Quick links: [live evidence page](https://osasisorae.github.io/vowlock-arm-evidence-engine/) · [Version 2 decision](docs/v2-results.md) · [Version 1 replication](docs/results.md) · [judge validation](docs/validation.md) · [Devpost write-up](docs/submission.md)
 
 ## Version 2 follow-up
 
 Version 1 is preserved as the sealed answer above. Before running any new condition, Version 2 was separately [pre-registered](docs/v2-protocol.md) in a [machine-readable manifest](experiment.v2.json). It generalizes the artifact across Q8_0 and Q4_0, 1.5B and 0.5B models, three workload shapes and two native Arm Ubuntu images. It adds exact artifact size, cold-process peak RSS, cold first-output proxy, honest power-counter availability and multi-criterion synthetic Setup Companion evaluation. Its attempts are preserved in the [Version 2 run log](docs/v2-run-log.md).
 
-This is a follow-up study, not a way to pool new numbers into Runs 4–6. It makes no advance speedup or power claim.
+This is a follow-up study, not a way to pool new numbers into Runs 4–6. Its final two-host run is preserved at [GitHub Actions Run 31785110768](https://github.com/osasisorae/vowlock-arm-evidence-engine/actions/runs/31785110768).
+
+The result selects Qwen2.5 1.5B Q4_0 on the baseline Arm CPU path for the next synthetic experiment. Q8→Q4 reduced exact artifact size by 43.72% and peak RSS by 34.67–34.68%; the retained Q4 condition passed 3/3 fixtures with byte-identical explanations across both runtime variants and both Arm Ubuntu images. Q4 improved estimated balanced and prompt-heavy time by 3.18–6.90% but regressed generation-heavy time by 4.01–4.87%. The 0.5B model was 58–69% faster but unreliable, and KleidiAI did not improve cold explanation latency. Full result: [`docs/v2-results.md`](docs/v2-results.md).
 
 Any judge can validate the manifest and deterministic safety evaluator in seconds, without downloading a model:
 
@@ -65,10 +67,11 @@ The pinned model is the official Apache-2.0 Qwen GGUF artifact:
 - Runtime selection: verified through the optimized `CPU_KLEIDIAI` model buffer and I8MM kernel messages; absent in the baseline.
 - Interpretation: the mixed direction replicated and does not demonstrate a material overall speedup under the registered workload. Full table and boundaries: [`docs/results.md`](docs/results.md).
 - Quality boundary: Runs 4–6 prove executable inference and backend selection but contain a known unverified output contract. Separately versioned Run 7 repaired the gate: both conditions returned exactly `READY`, and an independent verifier confirmed expected content and equivalence. That narrow canary does not establish explanation usefulness or safety.
+- Version 2: Run 1 preserved a verifier false negative and real model-quality failures. Repaired Run 2 completed on both registered Arm Ubuntu images, measured three model/quantization conditions across three workloads, captured peak RSS and cold explanation time, and retained only 1.5B Q4_0 baseline for further synthetic study.
 
 ## Zero-cost Arm target
 
-The benchmark runs through `.github/workflows/arm-benchmark.yml` on a standard GitHub-hosted Arm64 runner. GitHub documents standard hosted runners as free and unlimited for public repositories. The workflow is manual rather than push-triggered so a source edit cannot accidentally create repeated benchmark jobs.
+The benchmark workflows use standard GitHub-hosted Arm64 runners. Version 2 reports `ubuntu-22.04-arm` and `ubuntu-24.04-arm` separately. GitHub documents standard hosted runners as free and unlimited for public repositories. Workflows are manual rather than push-triggered so a source edit cannot accidentally create repeated benchmark jobs.
 
 Making this repository public is also an Arm submission requirement. No benchmark will start until the owner explicitly approves publishing the repository.
 
