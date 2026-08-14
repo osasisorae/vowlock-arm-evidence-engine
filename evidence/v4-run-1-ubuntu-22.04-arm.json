@@ -1,0 +1,43 @@
+{
+  "schema_version": "4.0",
+  "study_id": "vowlock-arm-authority-allocation-v4",
+  "source_run": "https://github.com/osasisorae/vowlock-arm-evidence-engine/actions/runs/31800634600",
+  "implementation_commit": "15b894a74d7adebd7d5721ebc527e13d31453747",
+  "host": "ubuntu-22.04-arm",
+  "logical_cpus": 4,
+  "architecture": "aarch64",
+  "elapsed_seconds": 173.31808487600028,
+  "preflight": {
+    "declared_oracles_matched": 18,
+    "templates_passed": 18,
+    "authority_mutations_caught": 8,
+    "authority_mutation_recall": 1.0
+  },
+  "resources": {
+    "model_artifact_bytes": 1066227232,
+    "model_server_peak_rss_kib": 2050204,
+    "model_free_driver_peak_rss_kib": 20352
+  },
+  "development": {
+    "fixtures": 6,
+    "F0": {"passed": 0, "median_complete_seconds": 6.558609246000287},
+    "T0": {"passed": 6, "median_complete_seconds": 0.00008371900003112387},
+    "M0": {"passed": 3, "median_complete_seconds": 3.100782642500235},
+    "H0": {"passed": 6, "fallbacks": 3, "median_complete_seconds": 3.1007904225002676}
+  },
+  "sealed": {
+    "fixtures": 12,
+    "F0": {"passed": 0, "authority_accuracy": 0.0, "median_complete_seconds": 6.434753923000244},
+    "T0": {"passed": 12, "authority_accuracy": 1.0, "median_complete_seconds": 0.00008162300036929082},
+    "M0": {"passed": 6, "authority_accuracy_for_parsed_candidates": 1.0, "median_complete_seconds": 3.060792352000135, "median_ttft_seconds": 1.2743893225001557},
+    "H0": {"passed_by_deterministic_evaluator": 12, "authority_accuracy": 1.0, "fallbacks": 6, "median_complete_seconds": 3.060792672000389}
+  },
+  "registered_decision": {
+    "raw_model_acceptance": 0.5,
+    "required_for_human_study": 0.8,
+    "model_eligible_for_human_study": false,
+    "model_preferred": false,
+    "retained_default": "T0"
+  },
+  "post_result_boundary": "The automatic evaluator's 12/12 H0 result establishes structured authority and registered surface checks, not factual adequacy of every accepted explanation. See the separately labelled non-blinded qualitative review."
+}

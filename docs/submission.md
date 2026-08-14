@@ -6,7 +6,7 @@ VowLock Arm Evidence Engine
 
 ## Elevator pitch
 
-An Arm64 evidence engine that found the useful optimization—43.72% smaller and 34.68% lower peak memory—while rejecting faster models that failed safety fixtures.
+An Arm64 evidence engine that discovered the best local model for this safety task is no model: 12/12 valid templates in 0.0816 ms, without a 1.066 GB artifact.
 
 ## Track
 
@@ -22,6 +22,8 @@ Version 2 compared Qwen2.5 1.5B Q8_0, 1.5B Q4_0 and 0.5B Q4_0 across baseline an
 
 The fastest model did not win. Qwen2.5 0.5B reduced estimated workload time by 58–69%, but produced malformed, incomplete or weak explanations and was rejected. KleidiAI remained mixed and did not improve cold explanation latency, so it was rejected for this product slice. The evidence engine turns those trade-offs into an inspectable product decision rather than a benchmark headline.
 
+Version 3 then tested runtime autotuning and stopped before sealed evaluation when both policies failed 0/6 development explanations. Version 4 followed that evidence instead of searching for a larger model: deterministic code owned every consequential field while the model was restricted to prose. On twelve sealed fixtures, the free-form model passed 0/12, constrained prose passed 6/12, and the deterministic template passed 12/12. The hybrid also passed all automatic checks, but only after six fallbacks. The template completed in 0.0816 ms median; the model-backed path took 3.0608 seconds, loaded a 1.066 GB artifact and reached about 2.05 million KiB peak server RSS. The final decision is to remove the model from this bounded task.
+
 ## Functionality and output
 
 - Refuses native performance execution on non-Arm64 hosts.
@@ -32,8 +34,9 @@ The fastest model did not win. Qwen2.5 0.5B reduced estimated workload time by 5
 - Runs balanced, prompt-heavy and generation-heavy workloads for every declared model/runtime condition.
 - Captures exact artifact size, independent peak RSS, cold first-output proxy and cold complete-explanation latency.
 - Reads real Linux energy counters when available and records `unavailable` rather than estimating power when absent.
-- Generates safe explanations for three synthetic Setup Companion states; no command is executed.
+- Generates and evaluates synthetic Setup Companion candidates; no command is executed.
 - Independently rejects wrong decisions, wrong actions, missing evidence, token-only explanations, forbidden claims, privileged command patterns and undecodable output.
+- Mutation-tests a constrained model boundary and falls back to deterministic prose without allowing the model to alter decisions, evidence or actions.
 - Provides a seconds-long, model-free fixture demo and a browser evidence replay for anonymous judges.
 
 ## Results
@@ -43,6 +46,8 @@ Q8_0→Q4_0 reduced exact artifact size from 1,894,532,128 to 1,066,227,232 byte
 Q4 reduced estimated balanced and prompt-heavy workload time by 3.18–6.90%, while generation-heavy time regressed by 4.01–4.87%. This is why the project does not claim a universal speedup.
 
 The retained 1.5B Q4 baseline passed 3/3 fixtures with a 5.77–5.78 second cold mean. KleidiAI also passed but was slightly slower end-to-end. Q8 failed across host images, and 0.5B passed at most 1/3 fixtures. The final choice is Qwen2.5 1.5B Q4_0 baseline.
+
+Version 4 supersedes that model choice for the bounded decision/explanation task. T0 retained exact authority and evidence in 0.0816 ms median with no model. H0 needed about 3.06 seconds and fell back in 6/12 cases. A disclosed, post-result qualitative audit also found that the surface verifier accepted misleading prose, so automatic acceptance is not presented as proof of factual safety or comprehension.
 
 ## How it was built
 
@@ -58,6 +63,8 @@ Version 2 found the opposite verifier problem: valid natural explanations were r
 
 The hardest result was accepting that the smallest and fastest model was not the correct product choice. A speedup that destroys the behaviour being accelerated is not an optimization.
 
+Version 4 exposed a deeper verifier limit. Immutable structured authority kept the decision correct, yet automatically accepted prose could still reverse `unknown` into “restored” or “certified.” The project therefore reports the automatic score and the qualitative contradiction instead of letting a 12/12 hybrid badge overstate the evidence.
+
 ## Accomplishments
 
 - Preserved a neutral/regressive KleidiAI result instead of cherry-picking prompt throughput.
@@ -66,15 +73,17 @@ The hardest result was accepting that the smallest and fastest model was not the
 - Added independent resource and end-to-end agent measurements.
 - Found a material, reproducible quantization win and a clear product model choice.
 - Rejected a 58–69% faster model because it failed the quality gate.
-- Packaged the method as an MIT-licensed template with 21 local tests, fast fixture validation, machine summaries and a public evidence page.
+- Packaged the method as an MIT-licensed template with 48 local tests, fast fixture validation, machine summaries and a public evidence page.
+- Moved consequential authority out of language generation and mutation-tested the boundary with eight attacks.
+- Found that removing a 1.066 GB model produced the strongest latency, memory and reliability result for this bounded task.
 
 ## What was learned
 
-An optimization flag is a hypothesis, not a result. Prompt and generation operations can move in opposite directions. A verifier can be too weak or too brittle. Workflow success describes the apparatus, not whether the claim passed. Quantization, model scale and runtime kernels must be evaluated against the same product behaviour, and the useful answer may be “keep the slower condition.”
+An optimization flag is a hypothesis, not a result. Prompt and generation operations can move in opposite directions. A verifier can be too weak or too brittle. Workflow success describes the apparatus, not whether the claim passed. Quantization, model scale and runtime kernels must be evaluated against the same product behaviour—and sometimes the strongest AI optimization is recognizing that a deterministic program should replace the model.
 
 ## What is next
 
-Only the retained 1.5B Q4 baseline may enter the next synthetic Setup Companion study. It will use sealed fixtures and independent human review. The Q8 host-image instability is a separate toolchain question. Real-device work remains out of scope until synthetic evidence, verifier-restoration research and explicit safety gates are complete.
+Use the deterministic template as the default for this bounded Setup Companion task. A language model may return only for a separately registered task that templates cannot cover and only with independent factual and comprehension evaluation. The Q8 host-image instability remains a separate toolchain question. Real-device work remains out of scope until synthetic evidence, verifier-restoration research and explicit safety gates are complete.
 
 ## Prior work and hackathon-period disclosure
 
@@ -86,5 +95,7 @@ VowLock existed before the challenge. This submission does not represent the Vow
 - Live evidence: https://osasisorae.github.io/vowlock-arm-evidence-engine/
 - Version 2 result: https://github.com/osasisorae/vowlock-arm-evidence-engine/blob/main/docs/v2-results.md
 - Version 2 protocol: https://github.com/osasisorae/vowlock-arm-evidence-engine/blob/main/docs/v2-protocol.md
+- Version 4 result: https://github.com/osasisorae/vowlock-arm-evidence-engine/blob/main/docs/v4-results.md
+- Version 4 native run: https://github.com/osasisorae/vowlock-arm-evidence-engine/actions/runs/31800634600
 - Final two-host run: https://github.com/osasisorae/vowlock-arm-evidence-engine/actions/runs/31785110768
 - Version 1 replication: https://github.com/osasisorae/vowlock-arm-evidence-engine/blob/main/docs/results.md

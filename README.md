@@ -11,9 +11,9 @@ This repository asks one narrow question: **does enabling Arm's KleidiAI kernels
 
 It is being created for the Cloud AI track of the Arm Create: AI Optimization Challenge. It is a new optimization artifact, not a claim that the existing VowLock application or the separate ADTC Setup Companion research scaffold was created during this hackathon.
 
-**Verdict:** KleidiAI was genuinely selected, but the sealed Runs 4–6 showed a mixed near-neutral result: +0.87% prompt processing and -1.58% generation. The separately registered Version 2 found the useful optimization elsewhere: Q4_0 was 43.72% smaller and used about 34.68% less peak memory than Q8_0 while the retained 1.5B Q4_0 condition passed every synthetic fixture. The faster 0.5B model failed quality and was rejected.
+**Verdict:** KleidiAI was genuinely selected, but the sealed Runs 4–6 showed a mixed near-neutral result: +0.87% prompt processing and -1.58% generation. Version 2 found a material Q8→Q4 resource win. Version 3 then showed that runtime tuning cannot repair an invalid explanation policy. Version 4 moved authority into deterministic code and found the strongest optimization: remove the model from this task. The template passed 12/12 sealed fixtures in 0.0816 ms median; the 1.066 GB model took about 3.06 seconds, needed about 2.05 million KiB peak server RSS and still required fallback on half the cases.
 
-Quick links: [live evidence page](https://osasisorae.github.io/vowlock-arm-evidence-engine/) · [Version 2 decision](docs/v2-results.md) · [Version 3 result](docs/v3-results.md) · [Version 1 replication](docs/results.md) · [judge validation](docs/validation.md) · [Devpost write-up](docs/submission.md)
+Quick links: [live evidence page](https://osasisorae.github.io/vowlock-arm-evidence-engine/) · [Version 4 decision](docs/v4-results.md) · [Version 3 result](docs/v3-results.md) · [Version 2 decision](docs/v2-results.md) · [Version 1 replication](docs/results.md) · [judge validation](docs/validation.md) · [Devpost write-up](docs/submission.md)
 
 ## Version 2 follow-up
 
@@ -42,7 +42,15 @@ The manifest interface is documented in [`docs/customizing-v2.md`](docs/customiz
 
 Version 3 began as a [source-audited proposal](docs/v3-research-proposal.md), then was separately [registered](docs/v3-protocol.md) before implementation and execution. It kept the retained 1.5B Q4_0 model and searched separate prompt/decode threads and micro-batch size behind an independent quality gate.
 
-The native [Version 3 result](docs/v3-results.md) is negative. Four decode threads and micro-batch 256 won their screening stages, but neither the candidate nor static baseline passed any of six complete development explanations. The process therefore selected no policy and never generated sealed outputs or ran cache variants. Version 2 remains the submission result; Version 3 contributes the reusable apparatus and the evidence that scheduler optimization cannot repair a failing product contract.
+The native [Version 3 result](docs/v3-results.md) is negative. Four decode threads and micro-batch 256 won their screening stages, but neither the candidate nor static baseline passed any of six complete development explanations. The process therefore selected no policy and never generated sealed outputs or ran cache variants. At that point Version 2 remained the submission result; Version 3 contributed the reusable apparatus and the evidence that scheduler optimization cannot repair a failing product contract.
+
+## Version 4 authority allocation
+
+Version 4 was [registered](docs/v4-protocol.md) before implementation and execution. It tested four architectures: free-form model, deterministic template, constrained model explanation and verified hybrid fallback. Deterministic code owned every decision, evidence identifier and next action; the model could only propose prose.
+
+The [native result](docs/v4-results.md) retained the model-free template. On twelve sealed fixtures, free-form generation passed 0/12, constrained prose passed 6/12, and the template passed 12/12. The hybrid reached 12/12 automatic checks only by falling back six times. T0's median was 0.0816 ms, compared with 3.0608 s for the hybrid; removing the model also avoids its 1.066 GB artifact and roughly 2.05 million KiB server peak RSS.
+
+A disclosed post-result qualitative audit found that the surface verifier had accepted factually misleading prose. Only 2/12 explanations were clearly adequate, one was ambiguous and nine were inadequate. Structured authority remained correct, but the result proves that a correct decision envelope does not make generated prose trustworthy. The model did not reach its registered threshold for a later human study and did not earn its place.
 
 ## Why build this?
 
