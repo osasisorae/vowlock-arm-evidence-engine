@@ -1,0 +1,60 @@
+name: Arm64 V2 matrix
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  matrix:
+    name: V2 on ${{ matrix.runner }}
+    strategy:
+      fail-fast: false
+      matrix:
+        runner:
+          - ubuntu-22.04-arm
+          - ubuntu-24.04-arm
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 180
+
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v6
+
+      - name: Prove the native Arm runner
+        run: |
+          uname -a
+          test "$(uname -m)" = "aarch64"
+          lscpu
+
+      - name: Install build and measurement requirements
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y build-essential cmake curl git python3 time
+
+      - name: Run unit and seconds-long fixture tests
+        run: |
+          python3 -m unittest discover -s tests -v
+          python3 v2_matrix.py validate
+          python3 setup_companion_eval.py demo --output results/v2-fixture-demo.json
+
+      - name: Cache pinned model artifacts
+        uses: actions/cache@v5
+        with:
+          path: model/*.gguf
+          key: v2-qwen-models-${{ runner.arch }}-dcd819ff-d7efb072-7671c0c3
+
+      - name: Run registered V2 matrix
+        env:
+          V2_HOST_LABEL: ${{ matrix.runner }}
+        run: ./scripts/run-v2.sh
+
+      - name: Preserve raw Version 2 evidence
+        if: always()
+        uses: actions/upload-artifact@v6
+        with:
+          name: arm64-v2-evidence-${{ matrix.runner }}-${{ github.run_id }}
+          path: results/v2/
+          if-no-files-found: warn
+          retention-days: 30

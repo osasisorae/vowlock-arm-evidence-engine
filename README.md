@@ -14,6 +14,25 @@ It is being created for the Cloud AI track of the Arm Create: AI Optimization Ch
 
 Quick links: [live evidence page](https://osasisorae.github.io/vowlock-arm-evidence-engine/) · [replicated results](docs/results.md) · [judge validation](docs/validation.md) · [complete run log](docs/run-log.md) · [Devpost write-up](docs/submission.md)
 
+## Version 2 follow-up
+
+Version 1 is preserved as the sealed answer above. Before running any new condition, Version 2 was separately [pre-registered](docs/v2-protocol.md) in a [machine-readable manifest](experiment.v2.json). It generalizes the artifact across Q8_0 and Q4_0, 1.5B and 0.5B models, three workload shapes and two native Arm Ubuntu images. It adds exact artifact size, cold-process peak RSS, cold first-output proxy, honest power-counter availability and multi-criterion synthetic Setup Companion evaluation.
+
+This is a follow-up study, not a way to pool new numbers into Runs 4–6. It makes no advance speedup or power claim.
+
+Any judge can validate the manifest and deterministic safety evaluator in seconds, without downloading a model:
+
+```bash
+python3 v2_matrix.py validate
+python3 setup_companion_eval.py demo
+```
+
+The full native matrix is owner-dispatched through `.github/workflows/arm-v2.yml` or run on an Arm64 Ubuntu host with:
+
+```bash
+./scripts/run-v2.sh
+```
+
 ## Why build this?
 
 Private, offline assistance is not useful if it is too slow, too large or too expensive to run. The challenge supplies a short deadline for converting that concern into evidence. Prize money and recognition would help continue the work, but the minimum useful outcome is a reproducible before/after measurement and an honest decision about whether the improvement matters.
