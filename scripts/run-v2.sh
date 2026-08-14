@@ -14,7 +14,9 @@ raw_root="${result_root}/raw"
 host_root="${raw_root}/${host_label}"
 threads="${BENCH_THREADS:-$(getconf _NPROCESSORS_ONLN)}"
 jobs="${BUILD_JOBS:-$(getconf _NPROCESSORS_ONLN)}"
-llama_ref="1ee1cd9bc65a56ab50e2ed19a48709dc42d1dd9d"
+llama_ref="$(python3 "${root_dir}/v2_matrix.py" --manifest "${manifest}" runtime-commit)"
+fixture_rel="$(python3 "${root_dir}/v2_matrix.py" --manifest "${manifest}" fixtures-path)"
+fixture_path="${root_dir}/${fixture_rel}"
 
 arch="$(uname -m)"
 if [[ "${arch}" != "aarch64" && "${arch}" != "arm64" ]]; then
@@ -125,18 +127,22 @@ while IFS=$'\t' read -r model_id filename model_url model_sha model_bytes runtim
     printf 'stage=semantic-evaluation model=%s runtime=%s\n' "${model_id}" "${runtime}"
     while IFS= read -r fixture_id; do
       prompt_path="${condition_dir}/${fixture_id}-prompt.txt"
-      python3 "${root_dir}/setup_companion_eval.py" --fixtures "${root_dir}/fixtures/setup-companion-v2.json" prompt "${fixture_id}" >"${prompt_path}"
-      "${build_dir}/bin/llama-completion" \
+      python3 "${root_dir}/setup_companion_eval.py" --fixtures "${fixture_path}" prompt "${fixture_id}" >"${prompt_path}"
+      /usr/bin/time -v -o "${condition_dir}/candidates/${fixture_id}.time" \
+        "${build_dir}/bin/llama-completion" \
         --device none -m "${model_path}" --conversation --single-turn \
         -f "${prompt_path}" -n 220 --temp 0 --seed 424242 \
         --simple-io --no-display-prompt --log-verbosity 0 \
         >"${condition_dir}/candidates/${fixture_id}.txt" 2>&1
-    done < <(python3 "${root_dir}/setup_companion_eval.py" --fixtures "${root_dir}/fixtures/setup-companion-v2.json" ids)
-    if ! python3 "${root_dir}/setup_companion_eval.py" --fixtures "${root_dir}/fixtures/setup-companion-v2.json" \
-      evaluate-dir "${condition_dir}/candidates" --output "${condition_dir}/semantic.json"; then
+    done < <(python3 "${root_dir}/setup_companion_eval.py" --fixtures "${fixture_path}" ids)
+    if ! python3 "${root_dir}/setup_companion_eval.py" --fixtures "${fixture_path}" \
+      evaluate-dir "${condition_dir}/candidates" --output "${condition_dir}/semantic-untimed.json"; then
       semantic_failed=1
       printf 'semantic_status=failed model=%s runtime=%s\n' "${model_id}" "${runtime}"
     fi
+    python3 "${root_dir}/v2_matrix.py" --manifest "${manifest}" augment-semantic \
+      "${condition_dir}/semantic-untimed.json" "${condition_dir}/candidates" \
+      --output "${condition_dir}/semantic.json" >/dev/null
 
     printf 'stage=throughput model=%s runtime=%s\n' "${model_id}" "${runtime}"
     while IFS=$'\t' read -r workload_id prompt_tokens generation_tokens repetitions; do

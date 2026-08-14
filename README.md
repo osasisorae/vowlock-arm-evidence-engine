@@ -33,6 +33,8 @@ The full native matrix is owner-dispatched through `.github/workflows/arm-v2.yml
 ./scripts/run-v2.sh
 ```
 
+The manifest interface is documented in [`docs/customizing-v2.md`](docs/customizing-v2.md); custom studies copy the registration instead of modifying its history.
+
 ## Why build this?
 
 Private, offline assistance is not useful if it is too slow, too large or too expensive to run. The challenge supplies a short deadline for converting that concern into evidence. Prize money and recognition would help continue the work, but the minimum useful outcome is a reproducible before/after measurement and an honest decision about whether the improvement matters.

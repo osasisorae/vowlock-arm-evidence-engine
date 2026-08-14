@@ -3,7 +3,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from v2_matrix import ManifestError, load_manifest, parse_elapsed, parse_gnu_time, percent_reduction
+from v2_matrix import ManifestError, augment_semantic_report, load_manifest, parse_elapsed, parse_gnu_time, percent_reduction
 
 
 class V2MatrixTests(unittest.TestCase):
@@ -26,6 +26,17 @@ class V2MatrixTests(unittest.TestCase):
         self.assertEqual(50.0, percent_reduction(100, 50))
         with self.assertRaises(ManifestError):
             percent_reduction(0, 1)
+
+    def test_augments_semantic_report_with_agent_measurement(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            report = root / "semantic.json"
+            report.write_text(json.dumps({"passed_count": 1, "results": [{"fixture_id": "one", "passed": True}]}))
+            (root / "one.time").write_text("Elapsed (wall clock) time (h:mm:ss or m:ss): 0:02.50\nMaximum resident set size (kbytes): 200000\n")
+            result = augment_semantic_report(report, root)
+            self.assertEqual(2.5, result["agent_measurement"]["mean_cold_explanation_seconds"])
+            self.assertEqual(1.0, result["agent_measurement"]["quality_pass_rate"])
+            self.assertEqual(200000, result["results"][0]["generator_peak_rss_kib"])
 
 
 if __name__ == "__main__":

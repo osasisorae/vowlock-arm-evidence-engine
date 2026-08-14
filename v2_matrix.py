@@ -124,8 +124,21 @@ def summarize(manifest: dict[str, Any], raw_root: Path, host: str) -> dict[str, 
             if semantic_path.exists():
                 semantics[condition] = json.loads(semantic_path.read_text(encoding="utf-8"))
 
-    q8 = resources["qwen2.5-1.5b-q8_0--baseline"]
-    q4 = resources["qwen2.5-1.5b-q4_0--baseline"]
+    quantization_pairs = [
+        (before, after)
+        for before in manifest["models"]
+        for after in manifest["models"]
+        if before["family"] == after["family"]
+        and before["quantization"] == "Q8_0"
+        and after["quantization"] == "Q4_0"
+        and "baseline" in before["runtime_variants"]
+        and "baseline" in after["runtime_variants"]
+    ]
+    if len(quantization_pairs) != 1:
+        raise ManifestError("manifest must define exactly one same-family Q8_0 to Q4_0 baseline comparison")
+    q8_model, q4_model = quantization_pairs[0]
+    q8 = resources[f"{q8_model['id']}--baseline"]
+    q4 = resources[f"{q4_model['id']}--baseline"]
     all_semantics_pass = bool(semantics) and all(item.get("all_passed") for item in semantics.values())
     size_reduction = percent_reduction(q8["artifact_bytes"], q4["artifact_bytes"])
     rss_reduction = percent_reduction(q8["peak_rss_kib"], q4["peak_rss_kib"])
@@ -138,6 +151,8 @@ def summarize(manifest: dict[str, Any], raw_root: Path, host: str) -> dict[str, 
         "resources": resources,
         "semantics": semantics,
         "quantization_comparison": {
+            "before_model": q8_model["id"],
+            "after_model": q4_model["id"],
             "artifact_size_reduction_percent": size_reduction,
             "peak_rss_reduction_percent": rss_reduction,
             "all_available_semantic_checks_passed": all_semantics_pass,
@@ -145,6 +160,28 @@ def summarize(manifest: dict[str, Any], raw_root: Path, host: str) -> dict[str, 
             "registered_claim_passed": size_reduction >= 20 and rss_reduction >= 20 and all_semantics_pass,
         },
     }
+
+
+def augment_semantic_report(report_path: Path, timing_dir: Path) -> dict[str, Any]:
+    report = json.loads(report_path.read_text(encoding="utf-8"))
+    timings = []
+    for result in report.get("results", []):
+        fixture_id = result.get("fixture_id")
+        if not fixture_id:
+            raise ManifestError("semantic result is missing fixture_id")
+        timing = parse_gnu_time(timing_dir / f"{fixture_id}.time")
+        result["cold_explanation_seconds"] = timing["cold_first_output_seconds"]
+        result["generator_peak_rss_kib"] = timing["peak_rss_kib"]
+        timings.append(timing["cold_first_output_seconds"])
+    if not timings:
+        raise ManifestError("semantic report contains no timed fixtures")
+    report["agent_measurement"] = {
+        "definition": "fresh model process from prompt submission through complete explanation; verifier executes immediately afterward",
+        "mean_cold_explanation_seconds": sum(timings) / len(timings),
+        "max_cold_explanation_seconds": max(timings),
+        "quality_pass_rate": report.get("passed_count", 0) / len(timings),
+    }
+    return report
 
 
 def write_json(value: Any, output: Path | None = None) -> None:
@@ -162,6 +199,8 @@ def main() -> int:
     subparsers.add_parser("validate")
     subparsers.add_parser("models-tsv")
     subparsers.add_parser("workloads-tsv")
+    subparsers.add_parser("runtime-commit")
+    subparsers.add_parser("fixtures-path")
     subparsers.add_parser("plan")
     power_parser = subparsers.add_parser("energy-snapshot")
     power_parser.add_argument("--root", type=Path, default=Path("/sys/class/powercap"))
@@ -176,6 +215,10 @@ def main() -> int:
     summary_parser.add_argument("raw_root", type=Path)
     summary_parser.add_argument("--host", required=True)
     summary_parser.add_argument("--output", type=Path)
+    semantic_parser = subparsers.add_parser("augment-semantic")
+    semantic_parser.add_argument("report", type=Path)
+    semantic_parser.add_argument("timing_dir", type=Path)
+    semantic_parser.add_argument("--output", type=Path)
     args = parser.parse_args()
 
     manifest = load_manifest(args.manifest)
@@ -187,6 +230,10 @@ def main() -> int:
     elif args.command == "workloads-tsv":
         for workload in manifest["workloads"]:
             print("\t".join([workload["id"], str(workload["prompt_tokens"]), str(workload["generation_tokens"]), str(workload["repetitions"])]))
+    elif args.command == "runtime-commit":
+        print(manifest["runtime"]["commit"])
+    elif args.command == "fixtures-path":
+        print(manifest["agent_evaluation"]["fixtures"])
     elif args.command == "plan":
         write_json(plans(manifest))
     elif args.command == "energy-snapshot":
@@ -206,6 +253,8 @@ def main() -> int:
         write_json(value, args.output)
     elif args.command == "summarize":
         write_json(summarize(manifest, args.raw_root, args.host), args.output)
+    elif args.command == "augment-semantic":
+        write_json(augment_semantic_report(args.report, args.timing_dir), args.output)
     return 0
 
 

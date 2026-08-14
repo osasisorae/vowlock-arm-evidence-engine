@@ -31,6 +31,14 @@
     .links { display:flex; flex-wrap:wrap; gap:12px; margin-top:28px; }
     .links a { border:1px solid var(--ink); border-radius:999px; padding:9px 16px; text-decoration:none; }
     .boundary { border-left:6px solid var(--rust); padding-left:22px; }
+    .status { display:inline-block; padding:5px 10px; border:1px solid var(--ink); border-radius:999px; font-size:.8rem; font-weight:750; }
+    .table-wrap { overflow-x:auto; margin-top:24px; }
+    table { width:100%; border-collapse:collapse; min-width:680px; font-variant-numeric:tabular-nums; }
+    th,td { padding:12px 10px; border-bottom:1px solid var(--line); text-align:right; }
+    th:first-child,td:first-child { text-align:left; }
+    th { color:var(--muted); font-size:.78rem; letter-spacing:.06em; text-transform:uppercase; }
+    .positive { color:var(--green); font-weight:750; }
+    .regression { color:var(--rust); font-weight:750; }
     @media (max-width:650px) { .metrics { grid-template-columns:1fr; } header,section { padding:30px 24px; } }
   </style>
 </head>
@@ -65,6 +73,33 @@
     <h2>Optimization needs an evidence trail.</h2>
     <p>Small local models can make private Setup Companion guidance possible where connectivity, specialist support and compute are limited. But enabling an accelerated backend is not evidence that the user experience improved. This repository is a reusable pattern for Arm developers: verify selection, compare fact-equivalent conditions, preserve raw evidence, replicate, and keep regressions visible.</p>
     <p class="boundary"><strong>Claim boundary:</strong> the one-token contract is an equivalence canary. It does not establish that free-form device guidance is factual, safe or useful. Peak process memory was not independently measured.</p>
+  </section>
+
+  <section>
+    <div class="eyebrow">Browser evidence replay · Version 1</div>
+    <h2>Three runs. One unchanged commit.</h2>
+    <p>No login or workflow dispatch is required to inspect the sealed replication. Each run below links to its original GitHub Actions record.</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Run</th><th>Prompt baseline</th><th>Prompt KleidiAI</th><th>Change</th><th>Generation baseline</th><th>Generation KleidiAI</th><th>Change</th></tr></thead>
+        <tbody>
+          <tr><td><a href="https://github.com/osasisorae/vowlock-arm-evidence-engine/actions/runs/31741649412">4</a></td><td>129.957</td><td>131.219</td><td class="positive">+0.97%</td><td>35.623</td><td>35.429</td><td class="regression">−0.54%</td></tr>
+          <tr><td><a href="https://github.com/osasisorae/vowlock-arm-evidence-engine/actions/runs/31776041675">5</a></td><td>129.688</td><td>130.712</td><td class="positive">+0.79%</td><td>34.004</td><td>33.111</td><td class="regression">−2.63%</td></tr>
+          <tr><td><a href="https://github.com/osasisorae/vowlock-arm-evidence-engine/actions/runs/31776057917">6</a></td><td>130.214</td><td>131.313</td><td class="positive">+0.84%</td><td>35.814</td><td>35.232</td><td class="regression">−1.62%</td></tr>
+          <tr><td><strong>Pooled</strong></td><td>129.953</td><td>131.081</td><td class="positive">+0.87%</td><td>35.147</td><td>34.591</td><td class="regression">−1.58%</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p><small>Throughput is tokens per second. Runs 4–6 share experiment commit <code>cf3ab598</code>. Run 7 repaired the semantic verifier separately and is not pooled.</small></p>
+  </section>
+
+  <section>
+    <div class="eyebrow">Registered follow-up</div>
+    <p class="status">VERSION 2 · MEASUREMENT IN PROGRESS</p>
+    <h2>From one benchmark to a reusable laboratory.</h2>
+    <p>Version 2 was registered before execution. It adds Q8-to-Q4 quantization, a second 0.5B model, three workload shapes, two native Arm Ubuntu images, exact model size, cold-process peak RSS, cold first-output timing, real power counters when available, and three synthetic Setup Companion explanations with independent hard-failure checks.</p>
+    <p class="boundary"><strong>Separation rule:</strong> Version 2 is a new question. Its measurements will never be pooled into the sealed Version 1 result. No speedup, memory saving or quality result is claimed until the registered matrix finishes.</p>
+    <div class="links"><a href="https://github.com/osasisorae/vowlock-arm-evidence-engine/blob/main/docs/v2-protocol.md">Read the protocol</a><a href="https://github.com/osasisorae/vowlock-arm-evidence-engine/blob/main/experiment.v2.json">Inspect the manifest</a><a href="https://github.com/osasisorae/vowlock-arm-evidence-engine/actions/workflows/arm-v2.yml">View V2 runs</a></div>
   </section>
 </main>
 </body>
