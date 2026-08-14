@@ -19,7 +19,7 @@ This extends the study of efficient inference from Stanford CS329A. KleidiAI ker
 | Baseline | pinned revision | Qwen2.5 1.5B Instruct Q4_0 | same Arm64 host | `GGML_CPU_KLEIDIAI=OFF` |
 | Optimized | same revision | same file and SHA-256 | same Arm64 host | `GGML_CPU_KLEIDIAI=ON` |
 
-Primary metrics are prompt-processing tokens/second and generation tokens/second from `llama-bench`. Secondary evidence will include peak memory, end-to-end response latency and a fixed output-contract evaluation. Failed runs and regressions remain part of the result.
+Primary metrics are prompt-processing tokens/second and generation tokens/second from `llama-bench`. Planned secondary evidence includes peak memory, end-to-end response latency and a machine-checked output contract. Failed runs, regressions and unsupported secondary claims remain part of the result.
 
 The pinned model is the official Apache-2.0 Qwen GGUF artifact:
 
@@ -32,8 +32,10 @@ The pinned model is the official Apache-2.0 Qwen GGUF artifact:
 - Benchmark protocol and summarizer: implemented locally.
 - Actual Arm64 host: prepared for GitHub's standard `ubuntu-22.04-arm` hosted runner.
 - Cost boundary: no paid VM, subscription or metered API is permitted for this experiment.
-- Measured result: not yet available.
-- Submission claim: none until the run is reproducible.
+- Replicated measurement: Runs 4–6 completed from the identical commit on real Arm64 runners. Across their pooled means, KleidiAI changed prompt processing from 129.9529 to 131.0815 tokens/s (+0.87%) and generation from 35.1468 to 34.5907 tokens/s (-1.58%).
+- Runtime selection: verified through the optimized `CPU_KLEIDIAI` model buffer and I8MM kernel messages; absent in the baseline.
+- Interpretation: the mixed direction replicated and does not demonstrate a material overall speedup under the registered workload. Full table and boundaries: [`docs/results.md`](docs/results.md).
+- Quality boundary: the current smoke step proves executable inference and backend selection, but does not yet enforce the requested output text. No semantic-equivalence claim is permitted until that gate is repaired.
 
 ## Zero-cost Arm target
 

@@ -1,0 +1,73 @@
+{
+  "schema_version": "1.0",
+  "experiment_commit": "cf3ab598f0769089e866bdd15d903d39fe347160",
+  "runner_label": "ubuntu-22.04-arm",
+  "model": "Qwen2.5 1.5B Instruct Q4_0",
+  "runs": [
+    {
+      "run_number": 4,
+      "github_run_id": 31741649412,
+      "url": "https://github.com/osasisorae/vowlock-arm-evidence-engine/actions/runs/31741649412",
+      "baseline": {
+        "prompt_tokens_per_second": 129.956767,
+        "generation_tokens_per_second": 35.622631
+      },
+      "optimized": {
+        "prompt_tokens_per_second": 131.219208,
+        "generation_tokens_per_second": 35.429059
+      },
+      "change_percent": {
+        "prompt_tokens_per_second": 0.9714315223000147,
+        "generation_tokens_per_second": -0.5433961348896288
+      }
+    },
+    {
+      "run_number": 5,
+      "github_run_id": 31776041675,
+      "url": "https://github.com/osasisorae/vowlock-arm-evidence-engine/actions/runs/31776041675",
+      "baseline": {
+        "prompt_tokens_per_second": 129.687819,
+        "generation_tokens_per_second": 34.003852
+      },
+      "optimized": {
+        "prompt_tokens_per_second": 130.712356,
+        "generation_tokens_per_second": 33.110983
+      },
+      "change_percent": {
+        "prompt_tokens_per_second": 0.7900024905191927,
+        "generation_tokens_per_second": -2.625787807804847
+      }
+    },
+    {
+      "run_number": 6,
+      "github_run_id": 31776057917,
+      "url": "https://github.com/osasisorae/vowlock-arm-evidence-engine/actions/runs/31776057917",
+      "baseline": {
+        "prompt_tokens_per_second": 130.214224,
+        "generation_tokens_per_second": 35.813861
+      },
+      "optimized": {
+        "prompt_tokens_per_second": 131.312921,
+        "generation_tokens_per_second": 35.232118
+      },
+      "change_percent": {
+        "prompt_tokens_per_second": 0.8437611239767273,
+        "generation_tokens_per_second": -1.6243515324974367
+      }
+    }
+  ],
+  "pooled_means": {
+    "baseline": {
+      "prompt_tokens_per_second": 129.952937,
+      "generation_tokens_per_second": 35.146781
+    },
+    "optimized": {
+      "prompt_tokens_per_second": 131.081495,
+      "generation_tokens_per_second": 34.590720
+    },
+    "change_percent": {
+      "prompt_tokens_per_second": 0.868436,
+      "generation_tokens_per_second": -1.582112
+    }
+  }
+}

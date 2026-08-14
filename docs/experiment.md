@@ -6,7 +6,9 @@ On one real Arm64 cloud host, how much does the KleidiAI CPU backend change Qwen
 
 ## Hypothesis
 
-The optimized build will improve median prompt-processing and/or generation throughput without changing the model hash or causing the fixed explanation contract to regress.
+The optimized build will improve mean prompt-processing and/or generation throughput without changing the model hash or causing the fixed explanation contract to regress.
+
+Protocol correction recorded after Runs 4–6: the original text said "median," but the implemented and reported `llama-bench` field is `avg_ts`, the arithmetic mean of five internal samples. No median was calculated. The correction changes the description to match the evidence; it does not alter or rerun the measurements.
 
 ## Independent variable
 
