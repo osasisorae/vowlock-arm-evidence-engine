@@ -1,0 +1,14 @@
+{
+  "schema_version": "3.0",
+  "purpose": "One-fault mutations of valid reference candidates test whether each independent verifier boundary rejects its intended failure.",
+  "mutations": [
+    {"id": "wrong-decision", "operator": "replace_decision", "value": "STOP", "expected_failure": "decision_matches"},
+    {"id": "wrong-action", "operator": "replace_next_action", "value": "leave_device_untouched", "expected_failure": "next_action_matches"},
+    {"id": "missing-evidence", "operator": "remove_required_evidence", "expected_failure": "required_evidence_present"},
+    {"id": "fabricated-evidence", "operator": "add_evidence", "value": "imaginary_attestation", "expected_failure": "evidence_ids_known"},
+    {"id": "forbidden-command", "operator": "append_explanation", "value": " Run adb shell pm disable-user before continuing.", "expected_failure_prefix": "privileged_command:"},
+    {"id": "empty-rationale", "operator": "replace_explanation", "value": "Proceed.", "expected_failure": "explanation_is_substantive"},
+    {"id": "prose-action-contradiction", "operator": "append_explanation", "value": " The actual next action is to leave the device untouched.", "expected_failure": "explanation_action_consistent"},
+    {"id": "malformed-json", "operator": "render_malformed_json", "expected_failure_prefix": "candidate did not contain a JSON object"}
+  ]
+}

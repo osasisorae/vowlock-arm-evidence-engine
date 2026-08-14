@@ -1,0 +1,125 @@
+{
+  "$schema": "./schemas/experiment-v3.schema.json",
+  "schema_version": "3.0",
+  "study_id": "vowlock-arm-runtime-policy-v3",
+  "registered_at": "2026-08-14T11:39:16+01:00",
+  "status": "pre-registered-before-implementation-and-execution",
+  "proposal_commit": "56b8e74353eb45de0115258ac931a268cda3b7c6",
+  "separation": {
+    "prior_study": "vowlock-arm-evidence-engine-v2",
+    "rule": "Version 3 is a separately registered runtime-policy study. Its measurements must not be pooled with Version 1 or Version 2."
+  },
+  "cost_policy": "Only free GitHub-hosted standard Arm runners and open-source software. No paid compute, API, subscription or device.",
+  "runtime": {
+    "repository": "https://github.com/ggml-org/llama.cpp",
+    "commit": "1ee1cd9bc65a56ab50e2ed19a48709dc42d1dd9d",
+    "cmake": [
+      "CMAKE_BUILD_TYPE=Release",
+      "GGML_NATIVE=ON",
+      "GGML_LTO=ON",
+      "GGML_CPU_KLEIDIAI=OFF",
+      "LLAMA_CURL=OFF"
+    ],
+    "backend": "baseline Arm CPU path retained from Version 2"
+  },
+  "arm_hosts": [
+    {
+      "id": "ubuntu-22.04-arm",
+      "kind": "GitHub standard hosted Arm64 runner",
+      "role": "primary"
+    },
+    {
+      "id": "ubuntu-24.04-arm",
+      "kind": "GitHub standard hosted Arm64 runner",
+      "role": "conditional unchanged cross-image replication"
+    }
+  ],
+  "model": {
+    "id": "qwen2.5-1.5b-q4_0",
+    "family": "Qwen2.5 1.5B Instruct",
+    "quantization": "Q4_0",
+    "filename": "qwen2.5-1.5b-instruct-q4_0.gguf",
+    "url": "https://huggingface.co/Qwen/Qwen2.5-1.5B-Instruct-GGUF/resolve/91cad51170dc346986eccefdc2dd33a9da36ead9/qwen2.5-1.5b-instruct-q4_0.gguf?download=true",
+    "sha256": "dcd819ff094852c38faba6873d8ff0c9d51eadb2844539e52042ae5d647bbfdb",
+    "bytes": 1066227232
+  },
+  "legal_search_space": {
+    "decode_threads": [1, 2, 3, 4],
+    "prompt_threads": [1, 2, 3, 4],
+    "physical_micro_batch": [64, 128, 256, 512],
+    "cache_prompt": [false, true],
+    "cpu_affinity": {
+      "default": "always tested",
+      "pinned": "test only if the hosted runner exposes and accepts the declared mechanism"
+    }
+  },
+  "search": {
+    "method": "deterministic staged exhaustive search inside the declared grid",
+    "stage_1": "screen decode thread counts with the registered generation probe",
+    "stage_2": "hold the winning decode count and screen prompt-thread by micro-batch combinations with registered short, medium and long prompt probes",
+    "stage_3": "run complete development fixtures only for the non-dominated policies and select the lowest median complete-valid latency",
+    "tie_break_order": [
+      "higher valid-output rate",
+      "lower p95 complete-valid latency",
+      "lower peak RSS",
+      "fewer total threads",
+      "smaller micro-batch"
+    ],
+    "no_generated_commands": true
+  },
+  "registered_probes": [
+    {"id": "decode", "prompt_tokens": 128, "generation_tokens": 256, "repetitions": 3},
+    {"id": "prompt-short", "prompt_tokens": 256, "generation_tokens": 1, "repetitions": 3},
+    {"id": "prompt-medium", "prompt_tokens": 768, "generation_tokens": 1, "repetitions": 3},
+    {"id": "prompt-long", "prompt_tokens": 1536, "generation_tokens": 1, "repetitions": 3}
+  ],
+  "variants": [
+    {"id": "B0", "process": "fresh", "decode_threads": 4, "prompt_threads": 4, "physical_micro_batch": 512, "cache_prompt": false},
+    {"id": "B1", "process": "persistent", "decode_threads": 4, "prompt_threads": 4, "physical_micro_batch": 512, "cache_prompt": false},
+    {"id": "B2", "process": "persistent", "decode_threads": 4, "prompt_threads": 4, "physical_micro_batch": 512, "cache_prompt": true},
+    {"id": "V3-A", "process": "persistent", "policy": "selected_on_development_split", "cache_prompt": false},
+    {"id": "V3-B", "process": "persistent", "policy": "same_selected_policy_as_V3-A", "cache_prompt": true}
+  ],
+  "evaluation": {
+    "scope": "synthetic Setup Companion explanations only; no device interaction, generated command execution or installation-safety claim",
+    "development_fixtures": "fixtures/setup-companion-v3-development.json",
+    "sealed_fixtures": "fixtures/setup-companion-v3-sealed.json",
+    "mutations": "fixtures/setup-companion-v3-mutations.json",
+    "temperature": 0,
+    "seed": 424242,
+    "max_generated_tokens": 220,
+    "warmup_requests_per_policy": 1,
+    "sealed_repetitions": 3,
+    "server_endpoint": "/completion",
+    "stream": true
+  },
+  "metrics": {
+    "primary": "request-to-complete-valid-explanation latency",
+    "secondary": [
+      "request-to-first-generated-token latency",
+      "prompt tokens per second",
+      "generation tokens per second",
+      "prompt tokens evaluated and reused",
+      "persistent-server peak RSS",
+      "per-fixture paired change",
+      "p50, p95 and worst-case latency",
+      "verifier mutation recall",
+      "valid-output false-rejection rate",
+      "autotuning and reproduction time"
+    ],
+    "safe_fast_at_5": "a sealed request for which all hard checks pass and complete latency improves by at least 5% relative to B1"
+  },
+  "hard_gates": {
+    "all_retained_outputs_pass": true,
+    "dangerous_mutation_recall": 1.0,
+    "minimum_median_complete_latency_improvement_percent": 5.0,
+    "maximum_p95_regression_percent": 5.0,
+    "cache_claim_requires_positive_reused_token_count": true,
+    "unavailable_metrics_are_reported_not_estimated": true
+  },
+  "claims": {
+    "primary": "The selected runtime policy is a useful Arm optimization only if it passes every quality gate, improves median complete-valid latency by at least 5% over B1 and does not regress p95 by more than 5% on the sealed split.",
+    "cache": "A cache benefit is claimed only when the server reports positive token reuse and the paired latency evidence supports it.",
+    "no_claim": "No speedup, power saving, universal Arm policy, device safety, model-quality improvement or paper reproduction is assumed in advance."
+  }
+}
