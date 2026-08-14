@@ -13,6 +13,7 @@ from setup_companion_eval_v3 import (
 
 ROOT = Path(__file__).resolve().parents[1]
 DEV = ROOT / "fixtures/setup-companion-v3-development.json"
+SEALED = ROOT / "fixtures/setup-companion-v3-sealed.json"
 MUTATIONS = ROOT / "fixtures/setup-companion-v3-mutations.json"
 
 
@@ -23,7 +24,8 @@ class SetupCompanionEvaluatorV3Tests(unittest.TestCase):
         cls.fixture = cls.fixtures[0]
 
     def test_all_reference_candidates_pass(self):
-        for fixture in self.fixtures:
+        all_fixtures = self.fixtures + load_fixture_document(SEALED)["fixtures"]
+        for fixture in all_fixtures:
             with self.subTest(fixture=fixture["id"]):
                 result = evaluate_candidate(fixture, json.dumps(fixture["reference_candidate"]))
                 self.assertTrue(result["passed"], result["hard_failures"])

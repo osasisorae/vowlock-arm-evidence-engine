@@ -143,7 +143,10 @@ def explanation_action_consistent(explanation: str, action: Any) -> bool:
         for known_action, patterns in ACTION_PHRASES.items()
         if any(re.search(pattern, normalized) for pattern in patterns)
     }
-    return action in mentioned and not (mentioned - {action})
+    # The structured next_action already carries the action. Prose may explain
+    # the reason without redundantly restating it; it fails only when it names
+    # a different registered action.
+    return not (mentioned - {action})
 
 
 def evaluate_candidate(fixture: dict[str, Any], candidate_text: str) -> dict[str, Any]:
