@@ -170,6 +170,5 @@ python3 "${root_dir}/v2_matrix.py" --manifest "${manifest}" summarize "${raw_roo
 
 printf 'stage=complete semantic_failed=%s\n' "${semantic_failed}"
 if [[ "${semantic_failed}" != "0" ]]; then
-  echo "One or more registered semantic conditions failed; raw evidence and summary were preserved." >&2
-  exit 4
+  echo "One or more registered semantic conditions failed; the apparatus completed and the summary records that the claim is unsupported." >&2
 fi

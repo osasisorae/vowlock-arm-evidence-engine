@@ -1,7 +1,9 @@
 import json
+import tempfile
 import unittest
+from pathlib import Path
 
-from setup_companion_eval import evaluate_candidate, extract_object
+from setup_companion_eval import evaluate_candidate, explanation_mentions_evidence, extract_object, read_candidate
 
 
 FIXTURE = {
@@ -41,6 +43,18 @@ class SetupCompanionEvaluatorTests(unittest.TestCase):
         result = evaluate_candidate(FIXTURE, '{"decision":"STOP"}')
         self.assertFalse(result["passed"])
         self.assertIn("explanation_is_substantive", result["hard_failures"])
+
+    def test_accepts_human_readable_evidence_concepts(self):
+        explanation = "The verifier has not been restored and the Play Protect scan has not been run, so the device must remain untouched."
+        self.assertTrue(explanation_mentions_evidence(explanation, {"verifier_restored", "play_protect_scan"}))
+
+    def test_invalid_utf8_becomes_failed_candidate_text(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "candidate.txt"
+            path.write_bytes(b"not-json-\x8c")
+            result = evaluate_candidate(FIXTURE, read_candidate(path))
+            self.assertFalse(result["passed"])
+            self.assertEqual(["candidate did not contain a JSON object"], result["hard_failures"])
 
 
 if __name__ == "__main__":

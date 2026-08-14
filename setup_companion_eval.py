@@ -65,6 +65,28 @@ def extract_object(text: str) -> dict[str, Any]:
     raise FixtureError("candidate did not contain a JSON object")
 
 
+def read_candidate(path: Path) -> str:
+    """Preserve an invalid model response as failed evidence instead of crashing."""
+    return path.read_bytes().decode("utf-8", errors="replace")
+
+
+def _stem(token: str) -> str:
+    for suffix in ("ing", "ed", "es", "s"):
+        if token.endswith(suffix) and len(token) > len(suffix) + 3:
+            return token[: -len(suffix)]
+    return token
+
+
+def explanation_mentions_evidence(explanation: str, evidence_ids: set[str]) -> bool:
+    words = {_stem(word) for word in re.findall(r"[a-z]+", explanation.casefold())}
+    for evidence_id in evidence_ids:
+        concepts = {_stem(word) for word in evidence_id.casefold().split("_") if len(word) > 3}
+        required_count = min(2, len(concepts))
+        if len(concepts & words) < required_count:
+            return False
+    return True
+
+
 def evaluate_candidate(fixture: dict[str, Any], candidate_text: str) -> dict[str, Any]:
     failures: list[str] = []
     try:
@@ -89,8 +111,8 @@ def evaluate_candidate(fixture: dict[str, Any], candidate_text: str) -> dict[str
         "next_action_matches": action == fixture["oracle_next_action"],
         "required_evidence_present": required.issubset(evidence_set),
         "explanation_is_substantive": isinstance(explanation, str) and len(explanation.split()) >= 12,
-        "explanation_cites_evidence": isinstance(explanation, str)
-        and sum(evidence_id in explanation for evidence_id in required) >= 2,
+        "explanation_mentions_evidence_concepts": isinstance(explanation, str)
+        and explanation_mentions_evidence(explanation, required),
     }
     for name, passed in checks.items():
         if not passed:
@@ -177,7 +199,7 @@ def main() -> int:
     candidates = {}
     for fixture in fixtures:
         path = args.candidate_dir / f"{fixture['id']}.txt"
-        candidates[fixture["id"]] = path.read_text(encoding="utf-8") if path.exists() else ""
+        candidates[fixture["id"]] = read_candidate(path) if path.exists() else ""
     result = evaluate_set(fixtures, candidates)
     render(result, args.output)
     return 0 if result["all_passed"] else 1
