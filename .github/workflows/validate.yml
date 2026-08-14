@@ -27,13 +27,22 @@ jobs:
           python3 -m json.tool evidence/v2-run-2-ubuntu-24.04-arm.json >/dev/null
           python3 -m json.tool evidence/v2-run-2-qualitative-review.json >/dev/null
           python3 v2_matrix.py validate
+          python3 -m json.tool experiment.v3.json >/dev/null
+          python3 -m json.tool schemas/experiment-v3.schema.json >/dev/null
+          python3 v3_runtime.py validate
 
       - name: Run model-free Setup Companion fixture demo
-        run: python3 setup_companion_eval.py demo --output results/v2-fixture-demo.json
+        run: |
+          python3 setup_companion_eval.py demo --output results/v2-fixture-demo.json
+          python3 setup_companion_eval_v3.py --fixtures fixtures/setup-companion-v3-development.json mutation-test --output results/v3-mutation-demo.json
+          python3 setup_companion_eval_v3.py --fixtures fixtures/setup-companion-v3-sealed.json demo --output results/v3-sealed-reference-demo.json
 
       - name: Preserve fixture-demo report
         uses: actions/upload-artifact@v6
         with:
           name: fixture-demo-${{ github.run_id }}
-          path: results/v2-fixture-demo.json
+          path: |
+            results/v2-fixture-demo.json
+            results/v3-mutation-demo.json
+            results/v3-sealed-reference-demo.json
           retention-days: 7
