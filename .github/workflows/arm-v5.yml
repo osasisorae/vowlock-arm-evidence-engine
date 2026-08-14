@@ -1,0 +1,39 @@
+name: Arm64 V5 explanation compiler
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  registered-v5:
+    name: V5 on ubuntu-22.04-arm
+    runs-on: ubuntu-22.04-arm
+    timeout-minutes: 30
+
+    steps:
+      - name: Check out frozen source
+        uses: actions/checkout@v6
+
+      - name: Prove the native Arm host
+        run: |
+          uname -a
+          test "$(uname -m)" = "aarch64"
+          lscpu
+          test "$(getconf _NPROCESSORS_ONLN)" -ge 4
+
+      - name: Run all model-free tests
+        run: python3 -m unittest discover -s tests -v
+
+      - name: Run the registered exhaustive compiler benchmark
+        run: python3 v5_benchmark.py --native-arm --output results/v5/summary-ubuntu-22.04-arm.json
+
+      - name: Preserve Version 5 evidence
+        if: always()
+        uses: actions/upload-artifact@v6
+        with:
+          name: arm64-v5-evidence-${{ github.run_id }}
+          path: results/v5/
+          if-no-files-found: warn
+          retention-days: 30

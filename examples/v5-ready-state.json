@@ -1,0 +1,9 @@
+{
+  "device_class": "resettable_test",
+  "device_certified": true,
+  "original_verifier_values_captured": true,
+  "verifier_restored": true,
+  "reboot_persistence_checked": true,
+  "play_protect_scan": "passed",
+  "device_owner_active": false
+}
