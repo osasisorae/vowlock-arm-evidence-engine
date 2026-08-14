@@ -66,7 +66,8 @@ VowLock existed before the challenge. This submission does not claim that the Vo
 ## Links
 
 - Source: https://github.com/osasisorae/vowlock-arm-evidence-engine
-- Evidence report: add GitHub Pages URL after activation
+- Evidence report: https://osasisorae.github.io/vowlock-arm-evidence-engine/
+- Cover image: https://github.com/osasisorae/vowlock-arm-evidence-engine/blob/main/docs/assets/result-card.png
 - Replicated results: https://github.com/osasisorae/vowlock-arm-evidence-engine/blob/main/docs/results.md
 - Validated Run 7: https://github.com/osasisorae/vowlock-arm-evidence-engine/actions/runs/31777533677
 - Final submission validation: https://github.com/osasisorae/vowlock-arm-evidence-engine/actions/runs/31779088483
