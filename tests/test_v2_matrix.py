@@ -3,7 +3,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from v2_matrix import ManifestError, augment_semantic_report, load_manifest, parse_elapsed, parse_gnu_time, percent_reduction
+from v2_matrix import ManifestError, augment_semantic_report, estimated_workload_seconds, load_manifest, parse_elapsed, parse_gnu_time, percent_reduction
 
 
 class V2MatrixTests(unittest.TestCase):
@@ -26,6 +26,15 @@ class V2MatrixTests(unittest.TestCase):
         self.assertEqual(50.0, percent_reduction(100, 50))
         with self.assertRaises(ManifestError):
             percent_reduction(0, 1)
+
+    def test_estimates_operation_weighted_workload_time(self):
+        record = {
+            "prompt_tokens": 100,
+            "generation_tokens": 20,
+            "prompt_tokens_per_second": 50,
+            "generation_tokens_per_second": 10,
+        }
+        self.assertEqual(4.0, estimated_workload_seconds(record))
 
     def test_augments_semantic_report_with_agent_measurement(self):
         with tempfile.TemporaryDirectory() as directory:

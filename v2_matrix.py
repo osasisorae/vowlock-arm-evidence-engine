@@ -102,6 +102,13 @@ def percent_reduction(before: float, after: float) -> float:
     return (1 - after / before) * 100
 
 
+def estimated_workload_seconds(record: dict[str, Any]) -> float:
+    return (
+        record["prompt_tokens"] / record["prompt_tokens_per_second"]
+        + record["generation_tokens"] / record["generation_tokens_per_second"]
+    )
+
+
 def summarize(manifest: dict[str, Any], raw_root: Path, host: str) -> dict[str, Any]:
     records = []
     for plan in plans(manifest):
@@ -109,7 +116,9 @@ def summarize(manifest: dict[str, Any], raw_root: Path, host: str) -> dict[str, 
         benchmark_path = base / f"{plan['workload_id']}.json"
         if not benchmark_path.exists():
             raise ManifestError(f"missing benchmark evidence: {benchmark_path}")
-        records.append({**plan, **extract_metrics(load_rows(benchmark_path))})
+        record = {**plan, **extract_metrics(load_rows(benchmark_path))}
+        record["estimated_workload_seconds"] = estimated_workload_seconds(record)
+        records.append(record)
 
     resources = {}
     semantics = {}
@@ -142,6 +151,33 @@ def summarize(manifest: dict[str, Any], raw_root: Path, host: str) -> dict[str, 
     all_semantics_pass = bool(semantics) and all(item.get("all_passed") for item in semantics.values())
     size_reduction = percent_reduction(q8["artifact_bytes"], q4["artifact_bytes"])
     rss_reduction = percent_reduction(q8["peak_rss_kib"], q4["peak_rss_kib"])
+    by_condition = {
+        (record["model_id"], record["runtime"], record["workload_id"]): record
+        for record in records
+    }
+    quantization_latency = []
+    for workload in manifest["workloads"]:
+        before = by_condition[(q8_model["id"], "baseline", workload["id"])]
+        after = by_condition[(q4_model["id"], "baseline", workload["id"])]
+        quantization_latency.append({
+            "workload_id": workload["id"],
+            "before_seconds": before["estimated_workload_seconds"],
+            "after_seconds": after["estimated_workload_seconds"],
+            "duration_reduction_percent": percent_reduction(before["estimated_workload_seconds"], after["estimated_workload_seconds"]),
+        })
+
+    smallest_model = min(manifest["models"], key=lambda model: model["bytes"])
+    scale_latency = []
+    if "baseline" in smallest_model["runtime_variants"]:
+        for workload in manifest["workloads"]:
+            before = by_condition[(q4_model["id"], "baseline", workload["id"])]
+            after = by_condition[(smallest_model["id"], "baseline", workload["id"])]
+            scale_latency.append({
+                "workload_id": workload["id"],
+                "before_seconds": before["estimated_workload_seconds"],
+                "after_seconds": after["estimated_workload_seconds"],
+                "duration_reduction_percent": percent_reduction(before["estimated_workload_seconds"], after["estimated_workload_seconds"]),
+            })
     return {
         "schema_version": "2.0",
         "study_id": manifest["study_id"],
@@ -158,6 +194,13 @@ def summarize(manifest: dict[str, Any], raw_root: Path, host: str) -> dict[str, 
             "all_available_semantic_checks_passed": all_semantics_pass,
             "registered_claim_threshold_percent": 20,
             "registered_claim_passed": size_reduction >= 20 and rss_reduction >= 20 and all_semantics_pass,
+            "estimated_workload_latency": quantization_latency,
+        },
+        "model_scale_comparison": {
+            "before_model": q4_model["id"],
+            "after_model": smallest_model["id"],
+            "estimated_workload_latency": scale_latency,
+            "quality_boundary": "A speed or size gain is not product-valid when the smaller model fails registered semantic fixtures.",
         },
     }
 
