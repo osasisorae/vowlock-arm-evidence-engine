@@ -34,8 +34,10 @@ Only `GGML_CPU_KLEIDIAI` changes between the primary baseline and optimized buil
 - optimized log proves that `CPU_KLEIDIAI` was selected;
 - no crash or out-of-memory run;
 - same model SHA-256 in both conditions;
-- fixed bounded-explanation outputs remain structurally valid;
+- a deterministic one-token chat contract requires both conditions to return exactly `READY` and to match each other;
 - environment, compiler and source revision are recorded.
+
+The one-token contract is a narrow equivalence canary, not an evaluation of explanation usefulness or safety. Backend selection is verified in a separate verbose raw-completion run so runtime diagnostics cannot be mistaken for generated text. The output-contract run uses the model's chat template, greedy decoding, a fixed seed, output-only log verbosity and a standalone verifier that rejects two matching-but-wrong outputs as well as backend divergence.
 
 ## Interpretation
 

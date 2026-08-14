@@ -69,18 +69,18 @@ printf 'stage=build-kleidiai\n'
 cmake -S "${source_dir}" -B "${optimized_dir}" "${common_flags[@]}" -DGGML_CPU_KLEIDIAI=ON
 cmake --build "${optimized_dir}" --config Release --target llama-bench llama-completion --parallel "${jobs}"
 
-printf 'stage=smoke-test\n'
-smoke_args=(
+printf 'stage=backend-verification\n'
+backend_args=(
   --device none
   --verbose
   -m "${model_path}"
   -no-cnv
-  -p "Return only the word READY."
-  -n 4
+  -p "The"
+  -n 1
   --temp 0
 )
-"${baseline_dir}/bin/llama-completion" "${smoke_args[@]}" >"${result_dir}/baseline-smoke.log" 2>&1
-"${optimized_dir}/bin/llama-completion" "${smoke_args[@]}" >"${result_dir}/optimized-smoke.log" 2>&1
+"${baseline_dir}/bin/llama-completion" "${backend_args[@]}" >"${result_dir}/baseline-smoke.log" 2>&1
+"${optimized_dir}/bin/llama-completion" "${backend_args[@]}" >"${result_dir}/optimized-smoke.log" 2>&1
 
 if grep -Eq "load_tensors:.*CPU_KLEIDIAI model buffer" "${result_dir}/baseline-smoke.log"; then
   echo "Baseline unexpectedly selected the CPU_KLEIDIAI model buffer." >&2
@@ -93,6 +93,28 @@ if ! grep -Eq "load_tensors:.*CPU_KLEIDIAI model buffer" "${result_dir}/optimize
   grep -Ei "load_tensors:|KLEIDIAI|system_info" "${result_dir}/optimized-smoke.log" >&2 || true
   exit 3
 fi
+
+printf 'stage=output-contract\n'
+output_args=(
+  --device none
+  -m "${model_path}"
+  --conversation
+  --single-turn
+  -p "Reply with exactly READY and nothing else."
+  -n 1
+  --temp 0
+  --seed 424242
+  --simple-io
+  --no-display-prompt
+  --log-verbosity 0
+)
+"${baseline_dir}/bin/llama-completion" "${output_args[@]}" >"${result_dir}/baseline-output.txt" 2>&1
+"${optimized_dir}/bin/llama-completion" "${output_args[@]}" >"${result_dir}/optimized-output.txt" 2>&1
+python3 "${root_dir}/output_contract.py" \
+  "${result_dir}/baseline-output.txt" \
+  "${result_dir}/optimized-output.txt" \
+  --expected READY \
+  --output "${result_dir}/output-contract.json"
 
 printf 'stage=benchmark\n'
 benchmark_args=(
