@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://osasisorae.github.io/vowlock-arm-evidence-engine/schemas/experiment-v4.schema.json",
+  "title": "VowLock Arm Authority Allocation V4 manifest",
+  "type": "object",
+  "required": ["$schema", "schema_version", "study_id", "registered_at", "status", "prior_result_commit", "separation", "research_question", "cost_policy", "runtime", "model", "authority_contract", "variants", "evaluation", "metrics", "hard_gates", "decision_rules"],
+  "properties": {
+    "$schema": {"type": "string"},
+    "schema_version": {"const": "4.0"},
+    "study_id": {"const": "vowlock-arm-authority-allocation-v4"},
+    "registered_at": {"type": "string", "format": "date-time"},
+    "status": {"const": "pre-registered-before-implementation-and-execution"},
+    "prior_result_commit": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+    "separation": {"type": "object", "required": ["prior_studies", "rule"]},
+    "research_question": {"type": "string", "minLength": 1},
+    "cost_policy": {"type": "string", "minLength": 1},
+    "runtime": {"type": "object", "required": ["repository", "commit", "cmake", "host", "decode_threads", "prompt_threads", "physical_micro_batch", "cache_prompt"]},
+    "model": {"type": "object", "required": ["id", "family", "quantization", "filename", "url", "sha256", "bytes"]},
+    "authority_contract": {"type": "object", "required": ["deterministic_fields", "model_field", "model_may_override_deterministic_fields", "model_receives_raw_device_access", "model_may_generate_or_execute_commands", "invalid_explanation_fallback", "decision_precedence"]},
+    "variants": {"type": "array", "minItems": 4},
+    "evaluation": {"type": "object", "required": ["scope", "development_fixtures", "sealed_fixtures", "authority_mutations", "temperature", "seed", "max_generated_tokens_free_form", "max_generated_tokens_explanation", "repetitions", "server_endpoint", "stream", "development_rule", "sealed_rule"]},
+    "metrics": {"type": "object", "required": ["primary", "resource", "diagnostic", "human_boundary"]},
+    "hard_gates": {"type": "object", "required": ["deterministic_decider_matches_all_declared_oracles", "template_passes_all_evaluator_checks", "authority_mutation_recall", "hybrid_valid_output_rate", "model_output_cannot_modify_authority_envelope", "unavailable_metrics_are_reported_not_estimated"]},
+    "decision_rules": {"type": "object", "required": ["architecture", "model_value", "fallback", "no_claim"]}
+  },
+  "additionalProperties": false
+}
