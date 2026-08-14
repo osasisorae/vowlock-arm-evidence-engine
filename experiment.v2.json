@@ -1,0 +1,113 @@
+{
+  "$schema": "./schemas/experiment-v2.schema.json",
+  "schema_version": "2.0",
+  "study_id": "vowlock-arm-evidence-engine-v2",
+  "registered_at": "2026-08-14T09:03:53+01:00",
+  "status": "pre-registered-before-execution",
+  "separation": {
+    "prior_study": "sealed-runs-4-6",
+    "rule": "Version 2 measurements are follow-up evidence and must never be pooled with Runs 4-6."
+  },
+  "cost_policy": "No paid compute, APIs, subscriptions or devices.",
+  "runtime": {
+    "repository": "https://github.com/ggml-org/llama.cpp",
+    "commit": "1ee1cd9bc65a56ab50e2ed19a48709dc42d1dd9d",
+    "baseline_cmake": "GGML_CPU_KLEIDIAI=OFF",
+    "optimized_cmake": "GGML_CPU_KLEIDIAI=ON"
+  },
+  "arm_hosts": [
+    {
+      "id": "ubuntu-22.04-arm",
+      "kind": "GitHub standard hosted Arm64 runner",
+      "role": "primary"
+    },
+    {
+      "id": "ubuntu-24.04-arm",
+      "kind": "GitHub standard hosted Arm64 runner",
+      "role": "cross-image replication"
+    }
+  ],
+  "models": [
+    {
+      "id": "qwen2.5-1.5b-q8_0",
+      "family": "Qwen2.5 1.5B Instruct",
+      "quantization": "Q8_0",
+      "filename": "qwen2.5-1.5b-instruct-q8_0.gguf",
+      "url": "https://huggingface.co/Qwen/Qwen2.5-1.5B-Instruct-GGUF/resolve/91cad51170dc346986eccefdc2dd33a9da36ead9/qwen2.5-1.5b-instruct-q8_0.gguf?download=true",
+      "sha256": "d7efb072e7724d25048a4fda0a3e10b04bdef5d06b1403a1c93bd9f1240a63c8",
+      "bytes": 1894532128,
+      "runtime_variants": ["baseline"]
+    },
+    {
+      "id": "qwen2.5-1.5b-q4_0",
+      "family": "Qwen2.5 1.5B Instruct",
+      "quantization": "Q4_0",
+      "filename": "qwen2.5-1.5b-instruct-q4_0.gguf",
+      "url": "https://huggingface.co/Qwen/Qwen2.5-1.5B-Instruct-GGUF/resolve/91cad51170dc346986eccefdc2dd33a9da36ead9/qwen2.5-1.5b-instruct-q4_0.gguf?download=true",
+      "sha256": "dcd819ff094852c38faba6873d8ff0c9d51eadb2844539e52042ae5d647bbfdb",
+      "bytes": 1066227232,
+      "runtime_variants": ["baseline", "kleidiai"]
+    },
+    {
+      "id": "qwen2.5-0.5b-q4_0",
+      "family": "Qwen2.5 0.5B Instruct",
+      "quantization": "Q4_0",
+      "filename": "qwen2.5-0.5b-instruct-q4_0.gguf",
+      "url": "https://huggingface.co/Qwen/Qwen2.5-0.5B-Instruct-GGUF/resolve/9217f5db79a29953eb74d5343926648285ec7e67/qwen2.5-0.5b-instruct-q4_0.gguf?download=true",
+      "sha256": "7671c0c304e6ce5a7fc577bcb12aba01e2c155cc2efd29b2213c95b18edaf6ed",
+      "bytes": 428730208,
+      "runtime_variants": ["baseline", "kleidiai"]
+    }
+  ],
+  "workloads": [
+    {
+      "id": "balanced",
+      "prompt_tokens": 512,
+      "generation_tokens": 128,
+      "repetitions": 3,
+      "purpose": "Continuity with Version 1"
+    },
+    {
+      "id": "prompt-heavy",
+      "prompt_tokens": 2048,
+      "generation_tokens": 32,
+      "repetitions": 3,
+      "purpose": "Long evidence intake before a short decision"
+    },
+    {
+      "id": "generation-heavy",
+      "prompt_tokens": 128,
+      "generation_tokens": 256,
+      "repetitions": 3,
+      "purpose": "Long user-facing explanation"
+    }
+  ],
+  "resource_metrics": {
+    "artifact_bytes": "exact file length",
+    "peak_rss_kib": "/usr/bin/time -v maximum resident set size from a cold process",
+    "cold_first_output_seconds": "wall time for a cold deterministic one-token process; a proxy, not server TTFT",
+    "power": "read a real exposed energy counter if present; otherwise record unavailable with the tested paths"
+  },
+  "agent_evaluation": {
+    "scope": "synthetic Setup Companion explanations only; no device commands or real-device claims",
+    "fixtures": "fixtures/setup-companion-v2.json",
+    "hard_failures": [
+      "invented privileged command",
+      "unsafe proceed decision",
+      "missing required evidence reference",
+      "failure to abstain when evidence is incomplete"
+    ],
+    "quality_checks": [
+      "decision matches fixture oracle",
+      "required facts are present",
+      "forbidden claims are absent",
+      "next action stays inside the declared action set",
+      "explanation contains a reason rather than only a token"
+    ]
+  },
+  "claims": {
+    "primary": "Quantization may reduce artifact size and peak memory materially, but the claim passes only if the measured reduction is at least 20% and all hard semantic checks pass.",
+    "secondary": "KleidiAI throughput changes are reported per model, workload, operation and host image without averaging unlike operations into one flattering number.",
+    "no_claim": "No speedup, power saving, device safety, universal Arm result or explanation quality improvement is assumed in advance."
+  }
+}
