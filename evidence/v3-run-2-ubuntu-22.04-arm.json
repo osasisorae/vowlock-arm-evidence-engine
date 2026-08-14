@@ -1,0 +1,89 @@
+{
+  "schema_version": "3.0-curated",
+  "study_id": "vowlock-arm-runtime-policy-v3",
+  "source_run": "https://github.com/osasisorae/vowlock-arm-evidence-engine/actions/runs/31795111653",
+  "registration_commit": "5f5f735",
+  "apparatus_commit": "3e5b4ff",
+  "host": {
+    "label": "ubuntu-22.04-arm",
+    "architecture": "aarch64",
+    "logical_cpus": 4,
+    "platform": "Linux-6.8.0-1064-azure-aarch64-with-glibc2.35"
+  },
+  "status": "stopped-before-sealed-evaluation",
+  "claim_passed": false,
+  "reason": "No development policy passed every quality check.",
+  "elapsed_seconds": 1291.878173245,
+  "verifier": {
+    "registered_mutations": 8,
+    "caught_at_intended_layer": 8,
+    "mutation_recall": 1.0
+  },
+  "decode_screen": [
+    {"threads": 1, "prompt_tokens_per_second": 47.599857, "generation_tokens_per_second": 10.371897},
+    {"threads": 2, "prompt_tokens_per_second": 92.27948, "generation_tokens_per_second": 19.123305},
+    {"threads": 3, "prompt_tokens_per_second": 141.000997, "generation_tokens_per_second": 27.719646},
+    {"threads": 4, "prompt_tokens_per_second": 163.030317, "generation_tokens_per_second": 35.823202}
+  ],
+  "selected_decode_threads": 4,
+  "prompt_screen": {
+    "candidate_count": 16,
+    "pareto_count": 1,
+    "pareto_policy": "t4-tb4-ub256",
+    "ranked_candidates": [
+      {"policy": "t4-tb4-ub256", "summed_prompt_seconds": 28.650139, "peak_rss_kib": 2016484},
+      {"policy": "t4-tb4-ub512", "summed_prompt_seconds": 29.976299, "peak_rss_kib": 2016484},
+      {"policy": "t4-tb4-ub128", "summed_prompt_seconds": 34.738741, "peak_rss_kib": 2016484},
+      {"policy": "t4-tb3-ub256", "summed_prompt_seconds": 37.189775, "peak_rss_kib": 2016484},
+      {"policy": "t4-tb3-ub128", "summed_prompt_seconds": 37.258796, "peak_rss_kib": 2016484},
+      {"policy": "t4-tb3-ub64", "summed_prompt_seconds": 37.341186, "peak_rss_kib": 2016484},
+      {"policy": "t4-tb3-ub512", "summed_prompt_seconds": 38.174732, "peak_rss_kib": 2016484},
+      {"policy": "t4-tb4-ub64", "summed_prompt_seconds": 50.336409, "peak_rss_kib": 2016484},
+      {"policy": "t4-tb2-ub128", "summed_prompt_seconds": 56.22298, "peak_rss_kib": 2016488},
+      {"policy": "t4-tb2-ub256", "summed_prompt_seconds": 56.775695, "peak_rss_kib": 2016484},
+      {"policy": "t4-tb2-ub512", "summed_prompt_seconds": 59.985877, "peak_rss_kib": 2016484},
+      {"policy": "t4-tb2-ub64", "summed_prompt_seconds": 66.888125, "peak_rss_kib": 2016488},
+      {"policy": "t4-tb1-ub256", "summed_prompt_seconds": 110.800471, "peak_rss_kib": 2016484},
+      {"policy": "t4-tb1-ub128", "summed_prompt_seconds": 110.856468, "peak_rss_kib": 2016484},
+      {"policy": "t4-tb1-ub64", "summed_prompt_seconds": 110.963416, "peak_rss_kib": 2016484},
+      {"policy": "t4-tb1-ub512", "summed_prompt_seconds": 113.949549, "peak_rss_kib": 2016484}
+    ]
+  },
+  "development": [
+    {
+      "policy": "t4-tb4-ub256",
+      "passed_fixtures": 0,
+      "fixture_count": 6,
+      "median_complete_seconds": 6.361984444499967,
+      "median_ttft_seconds": 3.244857406000051,
+      "p95_complete_seconds": 7.2143923192500665,
+      "worst_complete_seconds": 7.286335335000103,
+      "peak_rss_kib": 2016484
+    },
+    {
+      "policy": "t4-tb4-ub512",
+      "passed_fixtures": 0,
+      "fixture_count": 6,
+      "median_complete_seconds": 6.395293533499853,
+      "median_ttft_seconds": 3.231573292500002,
+      "p95_complete_seconds": 7.246028698750024,
+      "worst_complete_seconds": 7.3233627609999985,
+      "peak_rss_kib": 2016484
+    }
+  ],
+  "development_failure_counts_per_policy": {
+    "required_evidence_present": 4,
+    "explanation_mentions_evidence_concepts": 3,
+    "decision_matches": 4,
+    "next_action_matches": 5,
+    "forbidden_claim:device is certified": 1,
+    "evidence_ids_known": 1
+  },
+  "unexecuted_by_registered_stop": ["B0", "B1 sealed", "B2", "V3-A sealed", "V3-B", "cache comparison", "cross-image replication"],
+  "measurement_boundaries": [
+    "The 4.424% prompt-probe improvement is a screening result, below the registered 5% product gate and not a complete-valid response result.",
+    "The development median was 0.521% faster for micro-batch 256, but both compared policies passed zero of six fixtures.",
+    "HTTP slot erase returned 501 and tokens_cached equaled total evaluated prompt tokens. It is not interpreted as reused-token evidence.",
+    "The sealed fixture outputs were never generated or evaluated."
+  ]
+}
