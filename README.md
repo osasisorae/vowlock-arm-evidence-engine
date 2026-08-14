@@ -1,10 +1,18 @@
 # VowLock Arm Evidence Engine
 
+[![Arm64 benchmark](https://github.com/osasisorae/vowlock-arm-evidence-engine/actions/workflows/arm-benchmark.yml/badge.svg)](https://github.com/osasisorae/vowlock-arm-evidence-engine/actions/workflows/arm-benchmark.yml)
+
+![Replicated Arm benchmark result](docs/assets/result-card.svg)
+
 An Arm64 optimization experiment for the offline explanation layer proposed by VowLock Setup Companion.
 
 This repository asks one narrow question: **does enabling Arm's KleidiAI kernels in `llama.cpp` make the same small local model materially faster on the same Arm cloud machine without changing the model, workload or output-quality test?**
 
 It is being created for the Cloud AI track of the Arm Create: AI Optimization Challenge. It is a new optimization artifact, not a claim that the existing VowLock application or the separate ADTC Setup Companion research scaffold was created during this hackathon.
+
+**Verdict:** KleidiAI was genuinely selected, but the sealed Runs 4–6 showed a mixed near-neutral result: +0.87% prompt processing and -1.58% generation. The project keeps both numbers visible.
+
+Quick links: [live evidence page](https://osasisorae.github.io/vowlock-arm-evidence-engine/) · [replicated results](docs/results.md) · [judge validation](docs/validation.md) · [complete run log](docs/run-log.md) · [Devpost write-up](docs/submission.md)
 
 ## Why build this?
 
@@ -71,6 +79,12 @@ python3 -m unittest discover -s tests -v
 ## Honesty boundary
 
 An emulated Arm container may test portability but is not accepted as performance evidence. We will not compare different machines, models, prompts or run counts and call the difference an Arm optimization. If a real Arm host cannot be obtained, or KleidiAI produces no reproducible improvement, the report will say so.
+
+## Prior-work disclosure
+
+VowLock existed before the challenge. This repository is a new optimization artifact created during the submission period: the controlled Arm64 harness, result summarizer, runtime and semantic verifiers, seven-run evidence trail, result report and submission assets. It does not represent the pre-existing VowLock product or separate ADTC Setup Companion scaffold as hackathon-period work.
+
+See [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) for pinned upstream projects and model licensing.
 
 ## License
 

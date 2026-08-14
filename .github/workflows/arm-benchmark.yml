@@ -31,7 +31,7 @@ jobs:
         run: python3 -m unittest discover -s tests -v
 
       - name: Cache the pinned model
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: model/qwen2.5-1.5b-instruct-q4_0.gguf
           key: qwen2.5-1.5b-q4-0-dcd819ff
@@ -41,7 +41,7 @@ jobs:
 
       - name: Preserve raw benchmark evidence
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: arm64-benchmark-evidence-${{ github.run_id }}
           path: results/
