@@ -13,7 +13,7 @@ It is being created for the Cloud AI track of the Arm Create: AI Optimization Ch
 
 **Verdict:** KleidiAI was genuinely selected, but the sealed Runs 4–6 showed a mixed near-neutral result: +0.87% prompt processing and -1.58% generation. The separately registered Version 2 found the useful optimization elsewhere: Q4_0 was 43.72% smaller and used about 34.68% less peak memory than Q8_0 while the retained 1.5B Q4_0 condition passed every synthetic fixture. The faster 0.5B model failed quality and was rejected.
 
-Quick links: [live evidence page](https://osasisorae.github.io/vowlock-arm-evidence-engine/) · [Version 2 decision](docs/v2-results.md) · [Version 1 replication](docs/results.md) · [judge validation](docs/validation.md) · [Devpost write-up](docs/submission.md)
+Quick links: [live evidence page](https://osasisorae.github.io/vowlock-arm-evidence-engine/) · [Version 2 decision](docs/v2-results.md) · [Version 3 research proposal](docs/v3-research-proposal.md) · [Version 1 replication](docs/results.md) · [judge validation](docs/validation.md) · [Devpost write-up](docs/submission.md)
 
 ## Version 2 follow-up
 
@@ -37,6 +37,10 @@ The full native matrix is owner-dispatched through `.github/workflows/arm-v2.yml
 ```
 
 The manifest interface is documented in [`docs/customizing-v2.md`](docs/customizing-v2.md); custom studies copy the registration instead of modifying its history.
+
+## Version 3 research proposal
+
+Version 3 is a [source-audited proposal](docs/v3-research-proposal.md), not a registered or executed result. It keeps the retained 1.5B Q4_0 model and asks whether bounded search over separate prompt/decode threads, micro-batch size and prompt-cache policy can improve persistent-server first-token and complete-valid-response latency. The proposal includes its baselines, quality gates, paper-to-design mapping and stop conditions. No Version 3 performance claim exists yet.
 
 ## Why build this?
 
